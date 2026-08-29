@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-08-29T18:35:08+00:00",
+  "commitSha": "39c3e9d9e52707a7e05e06af6b7a82b9660d9d02",
+  "classification": "Public/Synthetic",
+  "privacyReview": "PASS",
+  "privacyEvidence": {
+    "publicScan": "PASS",
+    "screenshotReview": "PASS"
+  },
+  "items": [
+    {
+      "path": "artifacts/evidence/capability-matrix.json",
+      "sha256": "24c251afae5ec7e99c08df60487747fecca31eed220cc393794564b844a60c74",
+      "bytes": 6284,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/control-evidence-matrix.json",
+      "sha256": "ab2db4790edbdc06550ad9688ec9b634d77322c9710fdbff8a78bd90bdb59572",
+      "bytes": 6847,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/defender-status.json",
+      "sha256": "5718eff1c4b43742fcc7166c25b96558bc9aacfbc5676cdd0d8b4c054854d86b",
+      "bytes": 471,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/detection-test-results.json",
+      "sha256": "8317be8b1590724beddcfdf3d555b84a1f5344baed9aff210cbd2d08c16ff4cc",
+      "bytes": 10921,
+      "provenance": "deterministic Sentinel fixture and template validation"
+    },
+    {
+      "path": "artifacts/evidence/dist-scan.json",
+      "sha256": "3d02298c772477b9772563f1887e42b554428552442ce82c9a3e726bbc0ded67",
+      "bytes": 116,
+      "provenance": "automated public-release security and privacy gate"
+    },
+    {
+      "path": "artifacts/evidence/fresh-clone-validation.json",
+      "sha256": "61cd3059f31874113230631c65ffedaa41f99175ea9cf7839f97027e441c9686",
+      "bytes": 1339,
+      "provenance": "fresh public GitHub clone reproducibility gate"
+    },
+    {
+      "path": "artifacts/evidence/germany-job-requirements.json",
+      "sha256": "cf57274e1a67241af50b1048f5297b9cee38d8bb8da3e766f764f103e7a7c48c",
+      "bytes": 19257,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/iac-security-scan.json",
+      "sha256": "cf22dd789e8cc959f7327fac26132c6ec60b1ed8af1eb9d940584dd49eba17a4",
+      "bytes": 1895,
+      "provenance": "offline Terraform/TFLint/custom IaC validation"
+    },
+    {
+      "path": "artifacts/evidence/infracost.json",
+      "sha256": "b24ad99542ad2d12a4d6e5b0ab09467e629abf870c12584fb9d157bd849e6217",
+      "bytes": 383,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/license-inventory.json",
+      "sha256": "d4c6535c2e326ae44c65af9aaf72d7399b0d0d3595200986fa1921a058b2cf6f",
+      "bytes": 31476,
+      "provenance": "release dependency inventory from lockfiles"
+    },
+    {
+      "path": "artifacts/evidence/lighthouse.json",
+      "sha256": "c9e3ce39ce21c5994a71db61c4923ef3edc0ac3c2eb68c2aa122e681c27a59d1",
+      "bytes": 547162,
+      "provenance": "local Chrome production-build verification"
+    },
+    {
+      "path": "artifacts/evidence/live-publication-validation.json",
+      "sha256": "f58f9c8c2411c3249a07c5944d12421ee059d160a60cea94d5c414c2d61a785c",
+      "bytes": 1069,
+      "provenance": "hosted GitHub Pages and public GitHub Actions browser verification"
+    },
+    {
+      "path": "artifacts/evidence/policy-compliance-summary.json",
+      "sha256": "bc2352afb8c35606f1accba3558be87be031a9825cec8cb7c87e236194d2b4f9",
+      "bytes": 344,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/public-scan.json",
+      "sha256": "5fedbbefc0e770232bbc68db040fc32956bdb99ac8694a92d6edcd116b911e66",
+      "bytes": 190,
+      "provenance": "automated public-release security and privacy gate"
+    },
+    {
+      "path": "artifacts/evidence/resource-lifecycle.json",
+      "sha256": "a1922e17f44e9539cb30d2c99686a0f5d5a7df6480b1b5906b9f5dd9c09fef1c",
+      "bytes": 701,
+      "provenance": "public-demo documentation or offline validation"
+    },
+    {
+      "path": "artifacts/evidence/risk-register.csv",
+      "sha256": "945e84e30525f8991797261fd776030af04ece94da585280a276a8e5cb952b01",
+      "bytes": 8228,
+      "provenance": "fixed-seed public-demo generation"
+    },
+    {
+      "path": "artifacts/evidence/risk-register.json",
+      "sha256": "195c5a50556100521177235823a22bfcaadd86f7fcf17d295612525c615c04b3",
+      "bytes": 19917,
+      "provenance": "fixed-seed public-demo generation"
+    },
+    {
+      "path": "artifacts/evidence/sbom.cdx.json",
+      "sha256": "f00d9fadda1a09ca90951aa76d97959e8c0f7d49dad5ebede6d624804b896754",
+      "bytes": 30055,
+      "provenance": "release dependency inventory from lockfiles"
+    },
+    {
+      "path": "artifacts/evidence/screenshot-manifest.json",
+      "sha256": "46b8c477209c3945fe0c31e967be510e387981a3ce8f8d6f52c225131b870146",
+      "bytes": 4507,
+      "provenance": "local Chrome production-build verification"
+    },
+    {
+      "path": "artifacts/evidence/security-scan-summary.json",
+      "sha256": "b54da9a688ff9154d13f3d9367f77c3428930c35a3a194c9abcaa0c9ac90fbde",
+      "bytes": 1084,
+      "provenance": "automated public-release security and privacy gate"
+    },
+    {
+      "path": "artifacts/evidence/sentinel-template-validation.json",
+      "sha256": "ba7271fb16cc8704296fd3869eaa7dbad13e9f8e3b3fff09717520701af2cbbc",
+      "bytes": 1649,
+      "provenance": "deterministic Sentinel fixture and template validation"
+    },
+    {
+      "path": "artifacts/evidence/telemetry-manifest.json",
+      "sha256": "50da67e05f608f049c0dc58702f44e6d3e969f2c4c018e93d87f71c42bc97c20",
+      "bytes": 425,
+      "provenance": "fixed-seed public-demo generation"
+    },
+    {
+      "path": "artifacts/evidence/terraform-validation.json",
+      "sha256": "35771c3b2cf33d4ec2f83a36fb644bde7fc568ae7c6c68fc77c3269d320594a9",
+      "bytes": 1238,
+      "provenance": "offline Terraform/TFLint/custom IaC validation"
+    },
+    {
+      "path": "artifacts/evidence/test-summary.json",
+      "sha256": "5243335e0f99bc6442a796221f7dcf517b41d6510fd0a14b0de7255b998e7985",
+      "bytes": 921,
+      "provenance": "public-demo documentation or offline validation"
+    }
+  ]
+}

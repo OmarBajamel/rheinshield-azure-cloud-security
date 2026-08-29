@@ -1,0 +1,11 @@
+{
+  "scanner": "rheinshield-public-pattern-scan",
+  "filesScanned": 336,
+  "binaryReview": {
+    "png": 24,
+    "pdf": 2,
+    "zip": 2
+  },
+  "findings": [],
+  "status": "PASS"
+}

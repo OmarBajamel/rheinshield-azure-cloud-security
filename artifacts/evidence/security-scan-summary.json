@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "verifiedAt": "2026-08-29T18:34:12.7232741Z",
+  "status": "PASS",
+  "checks": {
+    "npmFullAudit": {"knownVulnerabilities": 0},
+    "pipAudit": {"knownVulnerabilities": 0},
+    "iacSecurity": {"passed": 14, "failed": 0},
+    "tflint": {"issues": 0},
+    "publicCandidateScan": {"filesScanned": 332, "pngReviewed": 24, "pdfReviewed": 2, "zipReviewed": 2, "findings": 0, "status": "PASS"},
+    "exactPagesDistScan": {"filesScanned": 7, "findings": 0, "status": "PASS"},
+    "workflowPins": {"unpinnedActions": 0},
+    "screenshotPrivacyReview": {"screenshots": 10, "status": "PASS"},
+    "freshClone": {"commit": "7e15f26bd9a4f8aadf16b6982d142fbd4bac3a05", "status": "PASS"},
+    "releaseProvenance": {"sourceCommit": "39c3e9d9e52707a7e05e06af6b7a82b9660d9d02", "sourceState": "CLEAN", "status": "PASS"}
+  },
+  "limitations": [
+    "Pattern scanners reduce accidental disclosure risk but do not prove absence of every possible sensitive value.",
+    "No container image was built or shipped, so a container vulnerability scan was not applicable."
+  ]
+}
