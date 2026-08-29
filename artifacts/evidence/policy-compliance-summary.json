@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "dataMode": "public-demo",
+  "validationMode": "FIXTURE_VALIDATED",
+  "initiative": "RheinShield Security Baseline",
+  "controls": 14,
+  "fixtureCompliant": 10,
+  "fixtureNonCompliant": 3,
+  "skippedCostGuard": 1,
+  "liveCompliance": null,
+  "notice": "Synthetic policy evidence; no Azure tenant was queried."
+}

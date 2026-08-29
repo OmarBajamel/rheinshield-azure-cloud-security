@@ -57,5 +57,10 @@ terraform -chdir=$labDirectory show -json rheinshield.tfplan | Set-Content -Lite
 infracost breakdown --path $planJson --currency EUR --format json --out-file $rawCost
 python "$PSScriptRoot/../tools/cost-gate/attest.py" --raw-infracost $rawCost --plan $plan --output $attestation
 python "$PSScriptRoot/../tools/cost-gate/verify.py" --attestation $attestation --raw-infracost $rawCost --plan $plan --max-eur 20
+$destroyPlan = Join-Path $privateDirectory "destroy-plan-$Suffix.json"
+if (-not (Test-Path -LiteralPath $destroyPlan)) { throw 'A reviewed, saved destruction plan is required before apply.' }
+$destroy = Get-Content -LiteralPath $destroyPlan -Raw | ConvertFrom-Json
+$destroyAge = [DateTime]::UtcNow - [DateTime]::Parse($destroy.createdAt).ToUniversalTime()
+if ($destroyAge.TotalSeconds -lt 0 -or $destroyAge.TotalMinutes -gt 15 -or $destroy.subscriptionId -ne $context.id -or (Compare-Object @($destroy.groups) $groups) -or $destroy.includesBootstrapIdentity -ne $true) { throw 'Destruction plan is stale or does not match the exact apply scope.' }
 foreach ($group in $groups) { az group update --name $group --set "tags.ExpiresAt=$($env:TF_VAR_expires_at)" --output none }
 terraform -chdir=$labDirectory apply rheinshield.tfplan

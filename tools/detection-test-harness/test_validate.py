@@ -27,6 +27,10 @@ class SentinelContentTests(unittest.TestCase):
         self.assertEqual(summary["playbooks"], 3)
         self.assertEqual(summary["watchlists"], 1)
 
+    def test_hunts_are_structural_only_without_live_sentinel(self) -> None:
+        for path in (validate.SENTINEL / "hunting-queries").glob("*.yaml"):
+            self.assertEqual(validate._load_yaml(path)["status"], "READY_NOT_AUTHENTICATED")
+
     def test_result_is_honest_about_validation_scope(self) -> None:
         self.assertEqual(self.result["status"], "FIXTURE_VALIDATED")
         self.assertFalse(self.result["live_validation"])

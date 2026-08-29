@@ -1,0 +1,265 @@
+{
+  "schema_version": "1.0.0",
+  "status": "FIXTURE_VALIDATED",
+  "validation_mode": "offline normalized fixture evaluator",
+  "live_validation": false,
+  "production_efficacy_claim": false,
+  "fixture_seed": 20260829,
+  "summary": {
+    "analytics_rules": 14,
+    "rule_fixture_tests_passed": 14,
+    "rule_fixture_tests_failed": 0,
+    "baseline_cases": 14,
+    "malicious_cases": 14,
+    "true_positives": 14,
+    "false_positives": 0,
+    "true_negatives": 14,
+    "false_negatives": 0,
+    "fixture_precision": 1.0,
+    "fixture_recall": 1.0,
+    "hunting_queries": 5,
+    "workbooks": 3,
+    "automation_rules": 3,
+    "playbooks": 3,
+    "watchlists": 1
+  },
+  "rules": [
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e001",
+      "name": "RS001 Password spray across multiple accounts",
+      "file": "sentinel/analytics-rules/rs001-password-spray.yaml",
+      "fixture": "sentinel/tests/fixtures/rs001-password-spray.json",
+      "evaluator": "password_spray",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e002",
+      "name": "RS002 Successful sign-in after repeated failures",
+      "file": "sentinel/analytics-rules/rs002-success-after-failures.yaml",
+      "fixture": "sentinel/tests/fixtures/rs002-success-after-failures.json",
+      "evaluator": "success_after_failures",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e003",
+      "name": "RS003 Improbable travel between successful sign-ins",
+      "file": "sentinel/analytics-rules/rs003-impossible-travel.yaml",
+      "fixture": "sentinel/tests/fixtures/rs003-impossible-travel.json",
+      "evaluator": "impossible_travel",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e004",
+      "name": "RS004 Privileged directory role assignment or elevation",
+      "file": "sentinel/analytics-rules/rs004-privileged-role-assignment.yaml",
+      "fixture": "sentinel/tests/fixtures/rs004-privileged-role-assignment.json",
+      "evaluator": "privileged_role_assignment",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e005",
+      "name": "RS005 Credential added to service principal or application",
+      "file": "sentinel/analytics-rules/rs005-service-principal-credential.yaml",
+      "fixture": "sentinel/tests/fixtures/rs005-service-principal-credential.json",
+      "evaluator": "service_principal_credential",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e006",
+      "name": "RS006 Conditional Access or identity-protection policy changed",
+      "file": "sentinel/analytics-rules/rs006-conditional-access-change.yaml",
+      "fixture": "sentinel/tests/fixtures/rs006-conditional-access-change.json",
+      "evaluator": "conditional_access_change",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e007",
+      "name": "RS007 Network rule broadened to unrestricted inbound access",
+      "file": "sentinel/analytics-rules/rs007-unrestricted-inbound-rule.yaml",
+      "fixture": "sentinel/tests/fixtures/rs007-unrestricted-inbound-rule.json",
+      "evaluator": "unrestricted_inbound_rule",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e008",
+      "name": "RS008 Diagnostic or security monitoring control deleted",
+      "file": "sentinel/analytics-rules/rs008-monitoring-control-deleted.yaml",
+      "fixture": "sentinel/tests/fixtures/rs008-monitoring-control-deleted.json",
+      "evaluator": "monitoring_control_deleted",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e009",
+      "name": "RS009 Storage public access or network restriction weakened",
+      "file": "sentinel/analytics-rules/rs009-storage-public-access.yaml",
+      "fixture": "sentinel/tests/fixtures/rs009-storage-public-access.json",
+      "evaluator": "storage_public_access",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e010",
+      "name": "RS010 Unusual Key Vault secret enumeration or access spike",
+      "file": "sentinel/analytics-rules/rs010-key-vault-access-spike.yaml",
+      "fixture": "sentinel/tests/fixtures/rs010-key-vault-access-spike.json",
+      "evaluator": "key_vault_access_spike",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e011",
+      "name": "RS011 Encoded or obfuscated PowerShell process behavior",
+      "file": "sentinel/analytics-rules/rs011-encoded-powershell.yaml",
+      "fixture": "sentinel/tests/fixtures/rs011-encoded-powershell.json",
+      "evaluator": "encoded_powershell",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e012",
+      "name": "RS012 Unusual mass object download or data-access spike",
+      "file": "sentinel/analytics-rules/rs012-mass-object-download.yaml",
+      "fixture": "sentinel/tests/fixtures/rs012-mass-object-download.json",
+      "evaluator": "mass_object_download",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e013",
+      "name": "RS013 Resource deployment from unfamiliar principal or location",
+      "file": "sentinel/analytics-rules/rs013-unfamiliar-deployment-principal.yaml",
+      "fixture": "sentinel/tests/fixtures/rs013-unfamiliar-deployment-principal.json",
+      "evaluator": "unfamiliar_deployment_principal",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    },
+    {
+      "id": "8c2f0d50-6e63-4db2-a53e-301c0bf6e014",
+      "name": "RS014 Repeated denied Azure operations by one principal",
+      "file": "sentinel/analytics-rules/rs014-repeated-denied-operations.yaml",
+      "fixture": "sentinel/tests/fixtures/rs014-repeated-denied-operations.json",
+      "evaluator": "repeated_denied_operations",
+      "baseline_alerts": 0,
+      "malicious_alerts": 1,
+      "result": "PASS"
+    }
+  ],
+  "validated_content": {
+    "hunting_queries": [
+      "sentinel/hunting-queries/hq001-identity-attack-chain.yaml",
+      "sentinel/hunting-queries/hq002-dormant-privileged-account.yaml",
+      "sentinel/hunting-queries/hq003-workload-credential-followed-by-use.yaml",
+      "sentinel/hunting-queries/hq004-control-weakening-sequence.yaml",
+      "sentinel/hunting-queries/hq005-data-access-precursors.yaml"
+    ],
+    "workbooks": [
+      "sentinel/workbooks/cloud-control-changes-compliance.json",
+      "sentinel/workbooks/identity-threats-privileged-access.json",
+      "sentinel/workbooks/soc-operations-overview.json"
+    ],
+    "automation_rules": [
+      "sentinel/automation-rules/cloud-control-change-triage.bicep",
+      "sentinel/automation-rules/high-severity-triage.bicep",
+      "sentinel/automation-rules/identity-incident-enrichment.bicep"
+    ],
+    "playbooks": [
+      "sentinel/playbooks/identity-containment-dry-run.bicep",
+      "sentinel/playbooks/network-rollback-dry-run.bicep",
+      "sentinel/playbooks/storage-protection-dry-run.bicep"
+    ],
+    "watchlist": [
+      "sentinel/watchlists/known-deployment-principals.bicep",
+      "sentinel/watchlists/known-deployment-principals.csv"
+    ],
+    "documentation": [
+      "docs/sentinel/DETECTION_CATALOG.md",
+      "docs/sentinel/MITRE_COVERAGE.md",
+      "docs/sentinel/TUNING_REGISTER.md",
+      "docs/sentinel/INCIDENT_TRIAGE_RUNBOOK.md",
+      "docs/sentinel/SOAR_SAFETY.md",
+      "docs/sentinel/DETECTION_TESTING.md",
+      "docs/sentinel/API_VERSION_DECISIONS.md"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "sentinel/tests/fixtures/rs001-password-spray.json",
+      "sha256": "36656c3ffb89266e75e86f5f350f6f3983a015e65b27529b54e36d57a1262dd5"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs002-success-after-failures.json",
+      "sha256": "0659f06bd8bff3226c77812073ca204b5ff68d4f914fc77fe04974687b54d674"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs003-impossible-travel.json",
+      "sha256": "2d2dd01134963fdc821de88d96a5e680c5c7b26afd1486c305cbbb844a6cbafa"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs004-privileged-role-assignment.json",
+      "sha256": "5a08d53650146b6e052fc8bb3ab26d6363062b6f92c1801b0b5226c0ff756b4d"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs005-service-principal-credential.json",
+      "sha256": "d9ca19930bf77b9e6c9bd1992ba2f172e34b54dcef95b049510e3cf546477766"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs006-conditional-access-change.json",
+      "sha256": "18f3a07108189800337b12c804bd9cf34e87453c052243cd5213d32a67d65878"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs007-unrestricted-inbound-rule.json",
+      "sha256": "64d253989cf65224739ac6d77239d57cbad69f7384e32bdd1a19ce739105ba65"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs008-monitoring-control-deleted.json",
+      "sha256": "a33d0caaf0a64007e416a9095cd9cf52134b0ba737eb5e65556be73d30a52818"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs009-storage-public-access.json",
+      "sha256": "936b9ea68abdd6de3053998f6d7eeb3f1b69de5cb12598819c6ea5e416c8e774"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs010-key-vault-access-spike.json",
+      "sha256": "99ab9f25626c8895b0c45abf2417e213053c53fe6b4ed9ea941dcae853f127e5"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs011-encoded-powershell.json",
+      "sha256": "a01c80aa898397eac67502a96a7b24e878c1d3ef6c736cdf3d2114edca534892"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs012-mass-object-download.json",
+      "sha256": "42a490fc5dc8f22abfaf504e80e86afe5e80352ab6cf1285970fcdcbe66c3149"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs013-unfamiliar-deployment-principal.json",
+      "sha256": "a437e0089bfcf8a3c1aba549bfef47a402dbaa0dfba5ffb8dbf936e6037147ee"
+    },
+    {
+      "path": "sentinel/tests/fixtures/rs014-repeated-denied-operations.json",
+      "sha256": "280162291280a993cdd90619f49fa2482db83154a53ba2502bba84dba72ff2ae"
+    }
+  ],
+  "executed_at": "2026-08-29T14:41:54Z",
+  "harness": "tools/detection-test-harness/validate.py"
+}

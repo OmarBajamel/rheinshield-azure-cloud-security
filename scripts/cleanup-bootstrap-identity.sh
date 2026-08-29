@@ -23,6 +23,8 @@ subscription="$(az account show --query id -o tsv)"
 display_name="$(az ad app show --id "$app_object_id" --query displayName -o tsv)"
 verified_app_id="$(az ad app show --id "$app_object_id" --query appId -o tsv)"
 [[ "$display_name" == "id-rheinshield-github-${suffix}" && "$verified_app_id" == "$app_id" ]] || { echo 'Application provenance mismatch.' >&2; exit 1; }
+verified_sp_app_id="$(az ad sp show --id "$sp_object_id" --query appId -o tsv)"
+[[ "$verified_sp_app_id" == "$app_id" ]] || { echo 'Service-principal provenance mismatch.' >&2; exit 1; }
 subject="$(az ad app federated-credential list --id "$app_object_id" --query "[?name=='github-azure-lab'].subject | [0]" -o tsv)"
 [[ "$subject" == 'repo:OmarBajamel/rheinshield-azure-cloud-security:environment:azure-lab' ]] || { echo 'Federated credential subject mismatch.' >&2; exit 1; }
 

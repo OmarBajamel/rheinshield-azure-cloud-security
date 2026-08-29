@@ -6,6 +6,7 @@ import json
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import cast
 
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / "artifacts" / "evidence"
@@ -41,13 +42,17 @@ def main() -> None:
     public_scan_path = EVIDENCE / "public-scan.json"
     public_scan = json.loads(public_scan_path.read_text(encoding="utf-8")) if public_scan_path.exists() else {"status": "UNAVAILABLE"}
     screenshot_path = EVIDENCE / "screenshot-manifest.json"
-    screenshot_review = json.loads(screenshot_path.read_text(encoding="utf-8")) if screenshot_path.exists() else {"privacyReview": "UNAVAILABLE"}
-    privacy_review = "PASS" if public_scan.get("status") == "PASS" and screenshot_review.get("privacyReview") == "PASS" else "UNAVAILABLE"
+    screenshot_review: dict[str, object] = json.loads(screenshot_path.read_text(encoding="utf-8")) if screenshot_path.exists() else {"privacyReview": "UNAVAILABLE"}
+    screenshot_items = cast(list[dict[str, object]], screenshot_review.get("items", []))
+    screenshot_status = screenshot_review.get("privacyReview")
+    if screenshot_status is None and screenshot_items:
+        screenshot_status = "PASS" if all(item.get("privacyReview") == "PASS" for item in screenshot_items) else "UNAVAILABLE"
+    privacy_review = "PASS" if public_scan.get("status") == "PASS" and screenshot_status == "PASS" else "UNAVAILABLE"
     items = []
     for path in sorted(EVIDENCE.glob("*")):
         if path.is_file() and path.name not in {"evidence-manifest.json", "redaction-report.json"}:
             items.append({"path": str(path.relative_to(ROOT)).replace("\\", "/"), "sha256": sha256(path), "bytes": path.stat().st_size, "provenance": provenance(path.name)})
-    output = {"schemaVersion": "1.0.0", "generatedAt": datetime.now(UTC).replace(microsecond=0).isoformat(), "commitSha": commit, "classification": "Public/Synthetic", "privacyReview": privacy_review, "privacyEvidence": {"publicScan": public_scan.get("status"), "screenshotReview": screenshot_review.get("privacyReview")}, "items": items}
+    output = {"schemaVersion": "1.0.0", "generatedAt": datetime.now(UTC).replace(microsecond=0).isoformat(), "commitSha": commit, "classification": "Public/Synthetic", "privacyReview": privacy_review, "privacyEvidence": {"publicScan": public_scan.get("status"), "screenshotReview": screenshot_status}, "items": items}
     (EVIDENCE / "evidence-manifest.json").write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"items": len(items), "privacyReview": privacy_review, "commitSha": commit}))
 

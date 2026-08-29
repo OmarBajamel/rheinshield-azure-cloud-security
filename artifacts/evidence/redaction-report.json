@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0.0",
+  "mode": "public-demo",
+  "sourceClassification": "Synthetic",
+  "filesProcessed": 0,
+  "replacements": 0,
+  "reason": "No live or private Azure evidence was collected; public artifacts originate from deterministic synthetic inputs.",
+  "privacyReview": "PASS",
+  "status": "FIXTURE_VALIDATED"
+}

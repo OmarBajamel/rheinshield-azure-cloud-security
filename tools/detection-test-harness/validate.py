@@ -282,7 +282,7 @@ def validate_hunting_queries() -> list[str]:
     for path in paths:
         item = _load_yaml(path)
         required = {"id", "name", "description", "status", "required_data_sources", "tactics", "techniques", "query"}
-        if required - set(item) or item["status"] != "FIXTURE_VALIDATED":
+        if required - set(item) or item["status"] != "READY_NOT_AUTHENTICATED":
             raise ValidationFailure(f"{path}: invalid hunting-query metadata")
         uuid.UUID(str(item["id"]))
         if item["id"] in ids or "|" not in item["query"] or "TODO" in item["query"]:

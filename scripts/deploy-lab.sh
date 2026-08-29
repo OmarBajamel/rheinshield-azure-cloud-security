@@ -17,7 +17,11 @@ if [[ "${GITHUB_ACTIONS:-}" == true ]]; then
      && "${GITHUB_REF:-}" == 'refs/heads/main' \
      && "${GITHUB_EVENT_NAME:-}" == 'workflow_dispatch' \
      && "${GITHUB_WORKFLOW_REF:-}" == 'OmarBajamel/rheinshield-azure-cloud-security/.github/workflows/azure-lab.yml@refs/heads/main' \
-     && -n "${AZURE_CLIENT_ID:-}" ]] || { echo 'GitHub workflow provenance mismatch.' >&2; exit 1; }
+     && -n "${RHEINSHIELD_CLIENT_ID:-}" \
+     && -n "${RHEINSHIELD_APP_OBJECT_ID:-}" \
+     && -n "${RHEINSHIELD_SP_OBJECT_ID:-}" \
+     && -n "${RHEINSHIELD_TENANT_ID:-}" ]] || { echo 'GitHub workflow provenance mismatch.' >&2; exit 1; }
+  [[ "$(az account show --query tenantId -o tsv)" == "$RHEINSHIELD_TENANT_ID" ]] || { echo 'Authenticated tenant does not match workflow provenance.' >&2; exit 1; }
 else
   [[ -f .private/azure-bootstrap.env ]] || { echo 'Bootstrap provenance is required; refusing tag-only ownership inference.' >&2; exit 1; }
   while IFS='=' read -r key value; do
@@ -57,6 +61,12 @@ if [[ "$operation" == deploy ]]; then
   infracost breakdown --path .private/rheinshield-plan.json --currency EUR --format json --out-file .private/infracost-raw.json
   python tools/cost-gate/attest.py --raw-infracost .private/infracost-raw.json --plan infra/lab/rheinshield.tfplan --output .private/cost-estimate.json
   python tools/cost-gate/verify.py --attestation .private/cost-estimate.json --raw-infracost .private/infracost-raw.json --plan infra/lab/rheinshield.tfplan --max-eur 20
+  destroy_plan=".private/destroy-plan-${suffix}.txt"
+  [[ -f "$destroy_plan" ]] || { echo 'A reviewed, saved destruction plan is required before apply.' >&2; exit 1; }
+  expected_groups="$(IFS=,; echo "${groups[*]}")"
+  IFS='|' read -r planned_at planned_subscription planned_groups < "$destroy_plan"
+  gate_epoch="$(date -u +%s)"
+  [[ "$planned_at" =~ ^[0-9]+$ && "$planned_subscription" == "$subscription" && "$planned_groups" == "$expected_groups" && "$gate_epoch" -ge "$planned_at" && "$gate_epoch" -le $((planned_at + 900)) ]] || { echo 'Destruction plan is stale or does not match the exact apply scope.' >&2; exit 1; }
   for group in "${groups[@]}"; do az group update -n "$group" --set "tags.ExpiresAt=$TF_VAR_expires_at" -o none; done
   terraform -chdir=infra/lab apply rheinshield.tfplan
 else

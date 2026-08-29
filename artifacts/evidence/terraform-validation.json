@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "verifiedAt": "2026-08-29T17:57:00.0287419Z",
+  "terraformVersion": "1.16.0",
+  "formatCheck": {"status": "PASS", "scope": "infra recursively"},
+  "lab": {
+    "initBackendFalse": "PASS",
+    "validate": "PASS",
+    "nativeTests": {"passed": 1, "failed": 0},
+    "provider": "hashicorp/azurerm 5.3.0",
+    "mode": "PLAN_VALIDATED"
+  },
+  "enterpriseReference": {
+    "module": "Azure/avm-ptn-alz/azurerm 0.21.0",
+    "initBackendFalse": "PASS",
+    "validate": "PASS",
+    "mode": "READY_NOT_AUTHENTICATED",
+    "applyBlock": "PASS — module instances are mechanically disabled by an empty for_each",
+    "limitation": "Static/provider validation only; the checked-in root cannot create management groups and no authenticated Azure plan was executed."
+  },
+  "policyBaseline": {
+    "controls": 14,
+    "initBackendFalse": "PASS",
+    "validate": "PASS",
+    "mode": "READY_NOT_AUTHENTICATED",
+    "limitation": "Static/provider validation only; no authenticated Azure policy plan or assignment was executed."
+  },
+  "tflint": {"version": "0.64.0", "issues": 0, "status": "PASS"},
+  "iacSecurityGate": {"checks": 14, "passed": 14, "failed": 0, "status": "PASS"},
+  "livePlan": "READY_NOT_AUTHENTICATED"
+}

@@ -1,0 +1,205 @@
+{
+  "schemaVersion": "1.0.0",
+  "controls": [
+    {
+      "id": "CTL-001",
+      "control": "Asset inventory and ownership",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)1",
+      "iso27001": "ISO A.5.9",
+      "bsiGrundschutz": "BSI ORP.1.A2",
+      "mcsb": "MCSB AM-1",
+      "evidence": "docs/scenario/ASSET_INVENTORY.md"
+    },
+    {
+      "id": "CTL-002",
+      "control": "Risk method and treatment",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(1)",
+      "iso27001": "ISO 6.1 / A.5.4",
+      "bsiGrundschutz": "BSI ISMS.1.A7/A10",
+      "mcsb": "\u2014 (no direct MCSB control)",
+      "evidence": "docs/compliance/RISK_REGISTER.md"
+    },
+    {
+      "id": "CTL-003",
+      "control": "Identity and least privilege",
+      "status": "READY_NOT_AUTHENTICATED",
+      "nis2Bsig": "BSIG \u00a730(2)9",
+      "iso27001": "ISO A.5.15/A.5.18",
+      "bsiGrundschutz": "BSI ORP.4.A2/A4",
+      "mcsb": "MCSB PA-1",
+      "evidence": "docs/identity/RBAC_MATRIX.md"
+    },
+    {
+      "id": "CTL-004",
+      "control": "Strong authentication",
+      "status": "READY_LICENSE_REQUIRED",
+      "nis2Bsig": "BSIG \u00a730(2)10",
+      "iso27001": "ISO A.8.5",
+      "bsiGrundschutz": "BSI ORP.4.A21",
+      "mcsb": "MCSB IM-6",
+      "evidence": "identity/conditional-access/policies.json"
+    },
+    {
+      "id": "CTL-005",
+      "control": "Workload identity/OIDC",
+      "status": "READY_NOT_AUTHENTICATED",
+      "nis2Bsig": "BSIG \u00a730(2)5/9",
+      "iso27001": "ISO A.5.16/A.8.2",
+      "bsiGrundschutz": "BSI ORP.4.A13/A15",
+      "mcsb": "MCSB IM-3",
+      "evidence": "docs/identity/OIDC_FEDERATION.md"
+    },
+    {
+      "id": "CTL-006",
+      "control": "Network segmentation",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)1",
+      "iso27001": "ISO A.8.20/A.8.22",
+      "bsiGrundschutz": "BSI NET.1.1.A4/A22",
+      "mcsb": "MCSB NS-1",
+      "evidence": "infra/modules/network/main.tf"
+    },
+    {
+      "id": "CTL-007",
+      "control": "Secrets and cryptography",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)8",
+      "iso27001": "ISO A.8.24",
+      "bsiGrundschutz": "BSI CON.1.A1/A4",
+      "mcsb": "MCSB DP-5",
+      "evidence": "infra/modules/security/main.tf"
+    },
+    {
+      "id": "CTL-008",
+      "control": "Secure configuration policy",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)1/4",
+      "iso27001": "ISO A.8.9",
+      "bsiGrundschutz": "BSI OPS.1.1.2.A7/A11",
+      "mcsb": "MCSB PV-2",
+      "evidence": "infra/policies/controls.json"
+    },
+    {
+      "id": "CTL-009",
+      "control": "Central logging",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)1/2",
+      "iso27001": "ISO A.8.15",
+      "bsiGrundschutz": "BSI OPS.1.1.5.A3/A6",
+      "mcsb": "MCSB LT-3",
+      "evidence": "infra/modules/monitoring/main.tf"
+    },
+    {
+      "id": "CTL-010",
+      "control": "Detection engineering",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)2",
+      "iso27001": "ISO A.8.16",
+      "bsiGrundschutz": "BSI DER.1.A6/A11",
+      "mcsb": "MCSB LT-1",
+      "evidence": "artifacts/evidence/detection-test-results.json"
+    },
+    {
+      "id": "CTL-011",
+      "control": "Incident response",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)2",
+      "iso27001": "ISO A.5.24-A.5.28",
+      "bsiGrundschutz": "BSI DER.2.1.A2/A7",
+      "mcsb": "MCSB IR-1",
+      "evidence": "docs/incident-response/INCIDENT_RESPONSE_PLAN.md"
+    },
+    {
+      "id": "CTL-012",
+      "control": "Business continuity and backup",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)3",
+      "iso27001": "ISO A.5.29/A.8.13",
+      "bsiGrundschutz": "BSI CON.3.A4/A15; DER.4.A10",
+      "mcsb": "MCSB BR-1",
+      "evidence": "docs/operations/BACKUP_AND_RECOVERY.md"
+    },
+    {
+      "id": "CTL-013",
+      "control": "Supplier security",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)4",
+      "iso27001": "ISO A.5.19-A.5.22",
+      "bsiGrundschutz": "BSI OPS.2.3.A2/A4",
+      "mcsb": "\u2014 (no direct MCSB control)",
+      "evidence": "docs/security/SUPPLIER_ACCESS_POLICY.md"
+    },
+    {
+      "id": "CTL-014",
+      "control": "Secure development/CI",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)5",
+      "iso27001": "ISO A.8.25-A.8.31",
+      "bsiGrundschutz": "BSI CON.8.A5/A7/A10/A20",
+      "mcsb": "MCSB DS-2/DS-3/DS-4",
+      "evidence": ".github/workflows/ci.yml"
+    },
+    {
+      "id": "CTL-015",
+      "control": "Vulnerability management",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730(2)5",
+      "iso27001": "ISO A.8.8",
+      "bsiGrundschutz": "BSI OPS.1.1.3.A1/A15",
+      "mcsb": "MCSB PV-6",
+      "evidence": "docs/security/VULNERABILITY_MANAGEMENT_POLICY.md"
+    },
+    {
+      "id": "CTL-016",
+      "control": "Cyber hygiene and training",
+      "status": "UNAVAILABLE",
+      "nis2Bsig": "BSIG \u00a730(2)7",
+      "iso27001": "ISO A.6.3",
+      "bsiGrundschutz": "BSI ORP.3.A4/A6",
+      "mcsb": "\u2014 (no direct MCSB control)",
+      "evidence": "docs/security/INFORMATION_SECURITY_POLICY.md"
+    },
+    {
+      "id": "CTL-017",
+      "control": "Evidence sanitization",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730 governance",
+      "iso27001": "ISO A.5.33/A.8.11",
+      "bsiGrundschutz": "BSI CON.6.A1/A8",
+      "mcsb": "\u2014 (no direct MCSB control)",
+      "evidence": "docs/evidence/SANITIZATION_STANDARD.md"
+    },
+    {
+      "id": "CTL-018",
+      "control": "Cost and lifecycle guard",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG proportionality",
+      "iso27001": "ISO A.5.31",
+      "bsiGrundschutz": "BSI ISMS.1.A15",
+      "mcsb": "\u2014 (no direct MCSB control)",
+      "evidence": "docs/cost/COST_GUARD.md"
+    },
+    {
+      "id": "CTL-019",
+      "control": "Incident reporting decision",
+      "status": "PLAN_VALIDATED",
+      "nis2Bsig": "BSIG \u00a7\u00a732-35",
+      "iso27001": "ISO A.5.5/A.5.26",
+      "bsiGrundschutz": "BSI DER.2.1.A3/A9/A14",
+      "mcsb": "MCSB IR-2",
+      "evidence": "docs/incident-response/COMMUNICATION_MATRIX.md"
+    },
+    {
+      "id": "CTL-020",
+      "control": "Control evidence integrity",
+      "status": "FIXTURE_VALIDATED",
+      "nis2Bsig": "BSIG \u00a730 governance",
+      "iso27001": "ISO A.5.35/A.5.36",
+      "bsiGrundschutz": "BSI ISMS.1.A13; OPS.1.1.2.A5",
+      "mcsb": "\u2014 (no direct MCSB control)",
+      "evidence": "artifacts/evidence/evidence-manifest.json"
+    }
+  ]
+}

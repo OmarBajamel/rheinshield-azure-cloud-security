@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "prefix": "rg-rheinshield-",
+  "requiredTags": ["Project", "Owner", "Environment", "DataClassification", "ManagedBy", "ExpiresAt"],
+  "plannedMaxLifetimeHours": 24,
+  "createdResources": 0,
+  "destroyedResources": 0,
+  "remainingResources": 0,
+  "destructionStatus": "NOT_APPLICABLE",
+  "credentialCleanup": "NOT_APPLICABLE",
+  "reason": "No Azure authentication was used and no project cloud resource or credential was created.",
+  "keyVaultPurgeProtectionNote": "If a future lab is deployed, Azure may retain the soft-deleted vault object/name for seven days after resource-group deletion; report it separately from active resources.",
+  "verifiedAt": "2026-08-29"
+}

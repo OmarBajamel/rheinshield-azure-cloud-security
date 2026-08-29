@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedAt": "2026-08-29T17:47:22.252Z",
+  "commitSha": "50c3cb6cea0fc66d8e8132872fd6d1ae93d670e3",
+  "items": [
+    {
+      "path": "assets/screenshots/01-executive-security-overview-desktop.png",
+      "route": "#/executive?lang=en",
+      "viewport": "1440x1000",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "8bbaacd73b99a6b5b76d6310bf7a08b9cba64be8f23b9f9e10e390efa3e9be4e",
+      "privacyReview": "PASS",
+      "intendedUse": "Recruiter hero and executive assurance summary",
+      "altText": "Recruiter hero and executive assurance summary. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/02-landing-zone-governance-desktop.png",
+      "route": "#/landing-zone?lang=en",
+      "viewport": "1440x1000",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "0e202a3babf5b6b44809b8b192ba5767c6e60fa61d9c3aac1a7489157eb3b9c3",
+      "privacyReview": "PASS",
+      "intendedUse": "Enterprise versus lab architecture",
+      "altText": "Enterprise versus lab architecture. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/03-soc-detection-coverage-desktop.png",
+      "route": "#/soc?lang=en",
+      "viewport": "1440x1000",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "1792c8413f2d67dfb3c36ab87fd38829714cdf91af08ede09bd545dd3b076c7b",
+      "privacyReview": "PASS",
+      "intendedUse": "Detection catalog and fixture results",
+      "altText": "Detection catalog and fixture results. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/04-incident-investigation-desktop.png",
+      "route": "#/incident?lang=en",
+      "viewport": "1440x1000",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "a106244dc7e5b7f1549d59a7f50cfc3006610bfd6068dded5ce1c11e04636189",
+      "privacyReview": "PASS",
+      "intendedUse": "INC-001 investigation timeline",
+      "altText": "INC-001 investigation timeline. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/05-risk-compliance-desktop.png",
+      "route": "#/risk?lang=en",
+      "viewport": "1440x1000",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "3f85b7882614393e69941b5d31600279178bf19d9cf0d24bfa0d864a6a816720",
+      "privacyReview": "PASS",
+      "intendedUse": "Risk treatment and framework mapping",
+      "altText": "Risk treatment and framework mapping. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/06-zero-trust-identity-desktop.png",
+      "route": "#/identity?lang=en",
+      "viewport": "1440x1000",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "2ed0c47f76d9ddcd33613556a184607f5e55dceffd58828538b7b08294a003fe",
+      "privacyReview": "PASS",
+      "intendedUse": "Identity and Zero Trust design",
+      "altText": "Identity and Zero Trust design. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/07-german-dashboard-desktop.png",
+      "route": "#/executive?lang=de",
+      "viewport": "1440x1000",
+      "language": "de",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "632ab617de07ca32eac78c8ecefe0b45d9e1a9f0a9f0e17a58fd7e90c3de3b4a",
+      "privacyReview": "PASS",
+      "intendedUse": "German recruiter view",
+      "altText": "German recruiter view. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    },
+    {
+      "path": "assets/screenshots/08-executive-security-overview-mobile.png",
+      "route": "#/executive?lang=en",
+      "viewport": "390x844",
+      "language": "en",
+      "dataMode": "public-demo",
+      "validationMode": "FIXTURE_VALIDATED",
+      "sha256": "cb9228e50a6011c43e17b6dd253d694633d9b744977c59be2e2efd5a6655c6f2",
+      "privacyReview": "PASS",
+      "intendedUse": "Mobile executive view",
+      "altText": "Mobile executive view. Synthetic RheinShield portfolio dashboard; no real tenant data."
+    }
+  ]
+}

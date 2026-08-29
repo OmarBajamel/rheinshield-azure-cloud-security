@@ -1,0 +1,78 @@
+{
+  "scanner": "rheinshield-iac-security",
+  "checks": 14,
+  "passed": 14,
+  "failed": 0,
+  "results": [
+    {
+      "id": "IAC-001",
+      "control": "Terraform versions are bounded",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-002",
+      "control": "AzureRM provider is pinned to maintained minor",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-003",
+      "control": "Lab has mandatory expiration tag",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-004",
+      "control": "Lab resource groups use generated project names",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-005",
+      "control": "Administrative ports are denied from Internet",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-006",
+      "control": "Storage public objects and shared keys are disabled",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-007",
+      "control": "Storage minimum TLS is explicit",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-008",
+      "control": "Key Vault uses RBAC and purge protection",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-009",
+      "control": "Workload uses user-assigned managed identity",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-010",
+      "control": "Container App scales to zero and one",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-011",
+      "control": "Sentinel ingestion has a low daily cap",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-012",
+      "control": "No long-lived Azure client secret variable",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-013",
+      "control": "Only a dedicated RheinShield management-group ID can be accepted",
+      "status": "PASS"
+    },
+    {
+      "id": "IAC-014",
+      "control": "Policy assignment is non-enforcing in lab",
+      "status": "PASS"
+    }
+  ]
+}

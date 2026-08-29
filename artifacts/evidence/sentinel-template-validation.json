@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "status": "PLAN_VALIDATED",
+  "executed_at": "2026-08-29T14:42:00Z",
+  "validator": {
+    "name": "Bicep CLI",
+    "version": "0.46.1",
+    "source": "official Azure/bicep GitHub release v0.46.1"
+  },
+  "command_contract": "bicep build <template> --stdout",
+  "summary": {
+    "analytics_rule_arm_resources_rendered": 14,
+    "analytics_rule_arm_resources_enabled": 0,
+    "templates_compiled": 7,
+    "templates_failed": 0,
+    "automation_rules": 3,
+    "logic_app_playbooks": 3,
+    "watchlists": 1
+  },
+  "analytics_rule_render": {
+    "generator": "tools/detection-test-harness/render_arm.py",
+    "resource_type": "Microsoft.SecurityInsights/alertRules",
+    "api_versions": ["2025-09-01"],
+    "result": "PASS"
+  },
+  "results": [
+    { "path": "sentinel/automation-rules/cloud-control-change-triage.bicep", "result": "PASS" },
+    { "path": "sentinel/automation-rules/high-severity-triage.bicep", "result": "PASS" },
+    { "path": "sentinel/automation-rules/identity-incident-enrichment.bicep", "result": "PASS" },
+    { "path": "sentinel/playbooks/identity-containment-dry-run.bicep", "result": "PASS" },
+    { "path": "sentinel/playbooks/network-rollback-dry-run.bicep", "result": "PASS" },
+    { "path": "sentinel/playbooks/storage-protection-dry-run.bicep", "result": "PASS" },
+    { "path": "sentinel/watchlists/known-deployment-principals.bicep", "result": "PASS" }
+  ],
+  "limitations": [
+    "Local compilation validates Bicep syntax and type schemas; it is not an Azure what-if or deployment.",
+    "No Sentinel workspace, Logic App, connector, role assignment, or live incident was created."
+  ]
+}

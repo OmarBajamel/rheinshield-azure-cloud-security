@@ -16,6 +16,8 @@ $context = az account show --only-show-errors | ConvertFrom-Json
 if ([string]::IsNullOrWhiteSpace($env:RHEINSHIELD_ALLOWED_SUBSCRIPTION_ID) -or $context.id -ne $env:RHEINSHIELD_ALLOWED_SUBSCRIPTION_ID -or $context.id -ne $record.AZURE_SUBSCRIPTION_ID) { throw 'Subscription/provenance mismatch.' }
 $app = az ad app show --id $record.AZURE_APP_OBJECT_ID --output json | ConvertFrom-Json
 if ($app.displayName -ne "id-rheinshield-github-$Suffix" -or $app.appId -ne $record.AZURE_CLIENT_ID) { throw 'Application provenance mismatch.' }
+$servicePrincipal = az ad sp show --id $record.AZURE_SP_OBJECT_ID --output json | ConvertFrom-Json
+if ($servicePrincipal.appId -ne $record.AZURE_CLIENT_ID) { throw 'Service-principal provenance mismatch.' }
 $credential = @(az ad app federated-credential list --id $record.AZURE_APP_OBJECT_ID --output json | ConvertFrom-Json) | Where-Object name -eq 'github-azure-lab'
 if ($credential.Count -ne 1 -or $credential[0].subject -ne 'repo:OmarBajamel/rheinshield-azure-cloud-security:environment:azure-lab') { throw 'Federated credential provenance mismatch.' }
 

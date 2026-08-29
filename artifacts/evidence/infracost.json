@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0.0",
+  "currency": "EUR",
+  "maximumIncrementalCost": 20,
+  "estimatedMonthlyCost": null,
+  "observedIncrementalCost": 0,
+  "status": "READY_NOT_AUTHENTICATED",
+  "reason": "No authenticated Azure pricing context and no Infracost binary were available; apply was prohibited by the cost gate.",
+  "billableResourcesCreated": 0,
+  "verifiedAt": "2026-08-29"
+}

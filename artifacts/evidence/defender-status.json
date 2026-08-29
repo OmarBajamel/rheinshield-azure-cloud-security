@@ -1,0 +1,10 @@
+{
+  "capability": "Microsoft Defender for Cloud",
+  "foundationalCspm": "READY_NOT_AUTHENTICATED",
+  "paidPlans": "SKIPPED_COST_GUARD",
+  "regulatoryComplianceDashboard": "READY_LICENSE_REQUIRED",
+  "benchmark": {"stable": "Microsoft Cloud Security Benchmark v1", "preview": "MCSB v2-preview-labelled-separately"},
+  "liveRecommendations": 0,
+  "claim": "No paid plan, live secure score, certification, or compliance result is claimed.",
+  "lastVerified": "2026-08-29"
+}

@@ -15,6 +15,14 @@ EVIDENCE = ROOT / "artifacts" / "evidence"
 RELEASE = ROOT / "artifacts" / "release"
 LINKEDIN = ROOT / "artifacts" / "linkedin"
 FIXED_ZIP_TIME = (2026, 8, 29, 0, 0, 0)
+GENERATED_EVIDENCE = {
+    "artifacts/evidence/dist-scan.json",
+    "artifacts/evidence/evidence-manifest.json",
+    "artifacts/evidence/license-inventory.json",
+    "artifacts/evidence/public-scan.json",
+    "artifacts/evidence/sbom.cdx.json",
+    "artifacts/evidence/security-scan-summary.json",
+}
 
 
 def sha256(path: Path) -> str:
@@ -25,26 +33,36 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def candidate_files() -> list[Path]:
-    result = subprocess.run(
-        ["git", "ls-files", "-co", "--exclude-standard"],
+def git(*arguments: str) -> str:
+    result = subprocess.run(  # noqa: S603 - fixed executable with internal arguments only
+        ["git", *arguments],
         cwd=ROOT,
         check=True,
         capture_output=True,
         text=True,
     )
-    excluded = {
-        "artifacts/evidence/evidence-manifest.json",
-        "artifacts/evidence/public-scan.json",
-        "artifacts/evidence/dist-scan.json",
-    }
+    return result.stdout.strip()
+
+
+def require_clean_source() -> tuple[str, str]:
+    status = git("status", "--porcelain=v1", "--untracked-files=all")
+    if status:
+        raise SystemExit(
+            "Release source must be a committed, clean revision. Commit or remove all changes "
+            "before building generated release assets."
+        )
+    return git("rev-parse", "HEAD"), git("rev-parse", "HEAD^{tree}")
+
+
+def candidate_files() -> list[Path]:
+    tracked = git("ls-files")
     files = []
-    for relative in result.stdout.splitlines():
+    for relative in tracked.splitlines():
         normalized = relative.replace("\\", "/")
         path = ROOT / relative
         if (
             path.is_file()
-            and normalized not in excluded
+            and normalized not in GENERATED_EVIDENCE
             and not normalized.startswith("artifacts/release/")
             and not normalized.endswith(".zip")
         ):
@@ -92,6 +110,7 @@ def components() -> list[dict[str, str]]:
 
 
 def main() -> None:
+    source_commit, source_tree = require_clean_source()
     RELEASE.mkdir(parents=True, exist_ok=True)
     LINKEDIN.mkdir(parents=True, exist_ok=True)
     EVIDENCE.mkdir(parents=True, exist_ok=True)
@@ -133,12 +152,26 @@ def main() -> None:
     )
 
     source_archive = RELEASE / "rheinshield-v1.0.0-source-evidence.zip"
-    write_zip(source_archive, candidate_files())
+    source_files = candidate_files()
+    write_zip(source_archive, source_files)
     social_files = sorted((ROOT / "docs" / "social").glob("*"))
     social_files += sorted((ROOT / "assets" / "linkedin").rglob("*.png"))
     social_files.append(LINKEDIN / "rheinshield-linkedin-carousel.pdf")
     linkedin_archive = LINKEDIN / "rheinshield-linkedin-package.zip"
     write_zip(linkedin_archive, [path for path in social_files if path.is_file()])
+
+    provenance = {
+        "schemaVersion": "1.0.0",
+        "generatedAt": timestamp,
+        "sourceCommit": source_commit,
+        "sourceTree": source_tree,
+        "sourceState": "CLEAN",
+        "sourceArchiveFiles": len(source_files),
+        "sourceArchiveSha256": sha256(source_archive),
+        "mutableGeneratedEvidenceExcludedFromSourceArchive": sorted(GENERATED_EVIDENCE),
+    }
+    provenance_path = RELEASE / "build-provenance.json"
+    provenance_path.write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
 
     checksum_targets = [
         source_archive,
@@ -147,13 +180,14 @@ def main() -> None:
         LINKEDIN / "rheinshield-linkedin-carousel.pdf",
         EVIDENCE / "sbom.cdx.json",
         EVIDENCE / "license-inventory.json",
+        provenance_path,
     ]
     lines = [f"{sha256(path)}  {path.relative_to(ROOT).as_posix()}" for path in checksum_targets]
     (RELEASE / "SHA256SUMS.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(
         json.dumps(
             {
-                "sourceArchiveFiles": len(candidate_files()),
+                "sourceArchiveFiles": len(source_files),
                 "linkedinPackageFiles": len(social_files),
                 "components": len(dependencies),
                 "checksums": len(lines),

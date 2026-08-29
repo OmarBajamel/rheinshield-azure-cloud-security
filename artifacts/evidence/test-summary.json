@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "verifiedAt": "2026-08-29",
+  "status": "PASS",
+  "terraform": {"rootsValidated": 3, "nativeTestsPassed": 1, "nativeTestsFailed": 0, "tflintIssues": 0, "iacChecksPassed": 14, "iacChecksFailed": 0},
+  "bicep": {"templatesCompiled": 7, "failed": 0},
+  "python": {"pytestPassed": 10, "pytestFailed": 0, "ruff": "PASS", "strictMypyFiles": 10, "strictMypy": "PASS", "warnings": 1},
+  "sentinel": {"maliciousFixturesTriggered": 14, "benignFixturesQuiet": 14, "falsePositives": 0, "falseNegatives": 0},
+  "dashboard": {"unitTestsPassed": 4, "routeLanguageViews": 16, "mobileViewsChecked": 1, "axeScans": 3, "axeViolations": 0, "consoleErrors": 0, "productionBuild": "PASS"},
+  "lighthouse": {"performance": 100, "accessibility": 100, "bestPractices": 100, "seo": 100},
+  "limitation": "Accessibility and mobile checks are representative; Sentinel fixture evaluation is not live KQL execution."
+}
