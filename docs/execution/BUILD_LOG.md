@@ -19,3 +19,4 @@
 | 2026-08-29 20:22 | Hosted browser gate | HTTP 200; 16 views; mobile; 3 axe scans; 0 console/network errors; live screenshots captured |
 | 2026-08-29 20:23 | Career assets | QR, LinkedIn media, one-page CV PDF, and five-page carousel PDF regenerated against verified public URLs |
 | 2026-08-29 20:28 | Fresh-clone dependency gate | Detected Vite advisory GHSA-fx2h-pf6j-xcff; upgraded to 8.2.2; full npm audit returned zero vulnerabilities |
+| 2026-08-29 20:32 | Second fresh-clone gate | Exact public commit installed cleanly; dashboard, Python/content, dependency, and Terraform lab gates passed without Azure credentials |

@@ -7,4 +7,4 @@
 - [x] No unsupported live, compliance, certification, or risk-reduction claim
 - [x] URLs resolve and no placeholder remains
 - [x] Evidence and release assets have SHA-256 hashes
-- [ ] SBOM, license inventory, release notes, and clean-clone proof exist
+- [x] SBOM, license inventory, release notes, and clean-clone proof exist

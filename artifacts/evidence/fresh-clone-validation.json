@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "verifiedAt": "2026-08-29T18:32:21.3969101Z",
+  "status": "PASS",
+  "repository": "https://github.com/OmarBajamel/rheinshield-azure-cloud-security",
+  "commitSha": "7e15f26bd9a4f8aadf16b6982d142fbd4bac3a05",
+  "environment": {
+    "azureCredentialsRequired": false,
+    "npmCleanInstall": "PASS",
+    "pythonLockedSync": "PASS"
+  },
+  "dashboard": {
+    "releaseCheck": "PASS",
+    "unitTestsPassed": 4,
+    "routeLanguageViews": 16,
+    "mobile": "PASS",
+    "axeChecks": 3,
+    "axeViolations": 0,
+    "consoleErrors": 0,
+    "productionBuild": "PASS"
+  },
+  "python": {
+    "ruff": "PASS",
+    "pytestPassed": 10,
+    "pytestFailed": 0,
+    "warnings": 1,
+    "pipAuditKnownVulnerabilities": 0
+  },
+  "dependencies": {
+    "npmAuditKnownVulnerabilities": 0,
+    "pipAuditKnownVulnerabilities": 0
+  },
+  "sentinel": {
+    "analyticsRules": 14,
+    "maliciousFixturesTriggered": 14,
+    "benignFixturesQuiet": 14,
+    "huntingQueriesStructurallyValidated": 5
+  },
+  "terraform": {
+    "format": "PASS",
+    "labInitBackendFalse": "PASS",
+    "labValidate": "PASS",
+    "nativeTestsPassed": 1,
+    "nativeTestsFailed": 0
+  },
+  "limitation": "The clone proves public offline reproducibility. It does not add authenticated Azure, live Sentinel, Defender, Entra licensing, or production efficacy evidence."
+}
