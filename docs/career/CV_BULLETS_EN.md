@@ -1,0 +1,3 @@
+- Provider-validated five Terraform modules, an Azure Verified Modules landing-zone reference, and a 14-control Azure Policy baseline with a €20 cost and teardown gate.
+- Fixture-tested 14 Microsoft Sentinel analytics rules using 738 deterministic synthetic events; structurally validated five hunts, three workbooks, and six safe SOAR resources.
+- Connected 27 risks and 20 evidence controls to NIS2/BSIG, ISO 27001, BSI IT-Grundschutz, and MCSB in an accessible eight-page English/German React dashboard.

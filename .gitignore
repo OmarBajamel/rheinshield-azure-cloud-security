@@ -21,6 +21,7 @@ coverage/
 .wrangler/
 playwright-report/
 test-results/
+*.tsbuildinfo
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/

@@ -1,0 +1,3 @@
+- Fünf Terraform-Module, eine Landing-Zone-Referenz mit Azure Verified Modules und 14 Azure-Policy-Kontrollen mit €20-Kosten- und Teardown-Gate provider-validiert.
+- 14 Microsoft-Sentinel-Analytics-Regeln mit 738 deterministischen synthetischen Ereignissen fixture-getestet; fünf Hunts, drei Workbooks und sechs sichere SOAR-Ressourcen strukturell validiert.
+- 27 Risiken und 20 Evidenzkontrollen mit NIS2/BSIG, ISO 27001, BSI IT-Grundschutz und MCSB in einem barrierearmen achtseitigen React-Dashboard auf Deutsch und Englisch verbunden.

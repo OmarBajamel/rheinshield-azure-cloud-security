@@ -1,0 +1,42 @@
+{
+  "name": "rheinshield-azure-cloud-security",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "start": "vite preview --host 127.0.0.1",
+    "lint": "eslint src/main.tsx vite.config.ts eslint.config.mjs tests/dashboard/dashboard.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/dashboard/*.test.mjs",
+    "test:e2e": "node tests/e2e/dashboard.e2e.mjs",
+    "screenshots": "node tools/visual-evidence/capture.mjs",
+    "test:python": "python -m pytest -q",
+    "validate:content": "python tools/detection-test-harness/validate.py",
+    "generate:data": "python tools/synthetic-telemetry/generate.py",
+    "build:public": "npm run generate:data && vite build",
+    "release:check": "npm run lint && npm run typecheck && npm test && npm run build:public && python tools/sanitization/scan_public.py && python tools/sanitization/scan_dist.py"
+  },
+  "dependencies": {
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@openai/sites-vite-plugin": "0.2.0",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "axe-core": "^4.13.0",
+    "eslint": "^10.9.1",
+    "playwright-core": "^1.62.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "^8.68.0",
+    "vite": "8.0.13"
+  },
+  "type": "module"
+}
