@@ -1,0 +1,38 @@
+# Credentials, private evidence, and Terraform state
+.env
+.env.*
+!.env.example
+.private/
+data/private/
+evidence/private/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/
+crash.log
+
+# Dependencies and build outputs
+node_modules/
+.pnpm-store/
+.npm-cache/
+.next/
+dist/
+coverage/
+.wrangler/
+playwright-report/
+test-results/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+__pycache__/
+*.pyc
+.venv/
+.tools/
+
+# Local/generated working files
+.firecrawl/
+tmp/
+.tmp-pdf-render/
+*.log
+.DS_Store
+Thumbs.db

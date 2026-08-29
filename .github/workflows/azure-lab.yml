@@ -1,0 +1,48 @@
+name: Azure lab plan (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      suffix:
+        description: Exact 4-8 character lab suffix created by bootstrap
+        type: string
+        required: true
+        default: demo01
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: rheinshield-azure-lab
+  cancel-in-progress: false
+jobs:
+  lab:
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.repository == 'OmarBajamel/rheinshield-azure-cloud-security' &&
+      github.ref == 'refs/heads/main'
+    environment: azure-lab
+    runs-on: ubuntu-latest
+    env:
+      AZURE_CORE_OUTPUT: none
+      RHEINSHIELD_MAX_INCREMENTAL_COST_EUR: '20'
+      RHEINSHIELD_ALLOWED_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      TF_VAR_container_image: ${{ vars.AZURE_CONTAINER_IMAGE_DIGEST }}
+      RHEINSHIELD_SUFFIX_INPUT: ${{ inputs.suffix }}
+      RHEINSHIELD_APP_OBJECT_ID: ${{ vars.AZURE_APP_OBJECT_ID }}
+      RHEINSHIELD_SP_OBJECT_ID: ${{ vars.AZURE_SP_OBJECT_ID }}
+      RHEINSHIELD_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      RHEINSHIELD_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Azure OIDC login
+        uses: Azure/login@7ddb5af1ef8758cf1353cf3b42f940aee27ba21c
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
+        with:
+          terraform_version: '1.16.0'
+      - name: Set 24-hour expiry
+        run: echo "TF_VAR_expires_at=$(date -u -d '+24 hours' +'%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_ENV"
+      - name: Validate and create a saved plan only
+        run: bash scripts/deploy-lab.sh "$RHEINSHIELD_SUFFIX_INPUT" plan

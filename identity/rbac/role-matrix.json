@@ -1,0 +1,15 @@
+{
+  "dataMode": "public-demo",
+  "status": "READY_NOT_AUTHENTICATED",
+  "assignments": [
+    {"principal":"grp-rs-platform-admins","role":"Contributor","scope":"rg-rheinshield-platform","mode":"PIM eligible","approval":true},
+    {"principal":"grp-rs-security-admins","role":"Security Admin","scope":"project subscription reference","mode":"PIM eligible","approval":true},
+    {"principal":"grp-rs-soc-analysts","role":"Microsoft Sentinel Responder","scope":"rg-rheinshield-security","mode":"standing","approval":false},
+    {"principal":"grp-rs-soc-readers","role":"Microsoft Sentinel Reader","scope":"rg-rheinshield-security","mode":"standing","approval":false},
+    {"principal":"grp-rs-workload-operators","role":"Container Apps Contributor","scope":"rg-rheinshield-workload","mode":"PIM eligible","approval":true},
+    {"principal":"grp-rs-developers","role":"Reader","scope":"rg-rheinshield-workload","mode":"standing","approval":false},
+    {"principal":"grp-rs-auditors","role":"Reader","scope":"rg-rheinshield-*","mode":"time-bound","approval":true},
+    {"principal":"id-rs-github-plan","role":"Reader","scope":"three exact pre-created suffix-bound lab resource groups","mode":"federated plan-only workflow","approval":false},
+    {"principal":"id-rs-workload","role":"Key Vault Secrets User","scope":"project Key Vault","mode":"managed identity","approval":false}
+  ]
+}

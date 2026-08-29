@@ -1,0 +1,6 @@
+location = "germanywestcentral"
+suffix   = "demo01"
+
+# Supply TF_VAR_expires_at at runtime; deploy scripts enforce a future value <=24h.
+# Replace the digest placeholder before an authenticated plan.
+container_image = "ghcr.io/omarbajamel/rheinshield-secure-workload@sha256:<replace-with-verified-64-hex-digest>"

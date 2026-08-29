@@ -1,0 +1,46 @@
+[project]
+name = "rheinshield"
+version = "1.0.0"
+description = "Deterministic Azure security portfolio evidence tooling"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.116,<1",
+  "httpx>=0.28,<1",
+  "pydantic>=2.11,<3",
+  "python-dateutil>=2.9,<3",
+  "uvicorn>=0.35,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.17,<2",
+  "pip-audit>=2.9,<3",
+  "pytest>=8.4,<9",
+  "pytest-cov>=6.2,<7",
+  "ruff>=0.12,<1",
+  "types-PyYAML>=6.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "apps/secure-workload/tests", "sentinel/tests"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "S", "B", "UP"]
+ignore = ["S101", "E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tools/visual-evidence/generate_diagrams.py" = ["E701", "E702"]
+"tools/evidence-collector/collect.py" = ["S607"]
+"tools/sanitization/scan_public.py" = ["S607"]
+"tools/synthetic-telemetry/generate.py" = ["S311"]
+"tools/release/build_release.py" = ["S607"]
+"tests/security/test_cost_gate.py" = ["S603"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true

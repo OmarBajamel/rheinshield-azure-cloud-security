@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "deploymentState": "disabled",
+  "safeLiveState": "enabledForReportingButNotEnforced",
+  "emergencyAccessExclusionRequired": true,
+  "policies": [
+    {"id":"CA-001","name":"Require phishing-resistant authentication for administrators","includedGroups":["grp-rs-platform-admins","grp-rs-security-admins"],"excludedGroups":["grp-rs-emergency-access"],"grantControls":["authenticationStrength:phishingResistant"],"license":"Entra ID P1; authentication strengths availability checked at deployment","status":"READY_LICENSE_REQUIRED"},
+    {"id":"CA-002","name":"Block legacy authentication","includedGroups":["grp-rs-lab-users"],"excludedGroups":["grp-rs-emergency-access"],"clientAppTypes":["exchangeActiveSync","other"],"grantControls":["block"],"license":"Entra ID P1","status":"READY_LICENSE_REQUIRED"},
+    {"id":"CA-003","name":"Privileged access device and sign-in frequency","includedGroups":["grp-rs-platform-admins"],"excludedGroups":["grp-rs-emergency-access"],"conditions":["deviceFilter","adminPortal"],"sessionControls":["signInFrequency:4h"],"license":"Entra ID P1 plus device signals","status":"READY_LICENSE_REQUIRED"},
+    {"id":"CA-004","name":"Protect risky users and sign-ins","includedGroups":["grp-rs-lab-users"],"excludedGroups":["grp-rs-emergency-access"],"conditions":["userRisk:high","signInRisk:medium,high"],"grantControls":["mfa","passwordChange"],"license":"Entra ID P2","status":"READY_LICENSE_REQUIRED"},
+    {"id":"CA-005","name":"Workload identity risk block","includedServicePrincipals":["dedicated lab workload identities"],"conditions":["servicePrincipalRisk:high"],"grantControls":["block"],"license":"Workload Identities Premium","status":"READY_LICENSE_REQUIRED"},
+    {"id":"CA-006","name":"Unmanaged-device session controls","includedGroups":["grp-rs-lab-users"],"excludedGroups":["grp-rs-emergency-access"],"conditions":["unmanagedDevice"],"sessionControls":["appEnforcedRestrictions","persistentBrowser:never"],"license":"Entra ID P1 and supported application","status":"READY_LICENSE_REQUIRED"}
+  ]
+}

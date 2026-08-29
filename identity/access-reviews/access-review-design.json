@@ -1,0 +1,1 @@
+{"status":"READY_LICENSE_REQUIRED","cadenceDays":90,"reviewers":["resource owner","security owner"],"scope":["privileged groups","guests","suppliers","GitHub deployment identities"],"defaultDecision":"deny","autoApply":false,"evidence":"docs/identity/ACCESS_REVIEW_EVIDENCE.md"}

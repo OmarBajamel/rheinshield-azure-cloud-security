@@ -1,0 +1,24 @@
+services:
+  workload:
+    build:
+      context: .
+      dockerfile: apps/secure-workload/Dockerfile
+    environment:
+      RHEINSHIELD_MODE: public-demo
+    ports:
+      - "127.0.0.1:8000:8000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+  dashboard:
+    image: nginx:1.29.1-alpine
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+    ports:
+      - "127.0.0.1:4173:80"
+    depends_on:
+      - workload

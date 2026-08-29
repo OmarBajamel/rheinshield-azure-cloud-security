@@ -1,0 +1,7 @@
+# Azure lab and OIDC bootstrap
+
+Bootstrap is deliberately separated from routine deployment. An authenticated, time-bound operator runs `scripts/bootstrap-azure.ps1 -Suffix demo01` (or the Bash equivalent) only in the explicitly allowlisted sandbox subscription. The script creates the exact network, security, and workload resource groups, ownership/expiry tags, an Entra application/service principal, and one federated credential whose subject is exactly `repo:OmarBajamel/rheinshield-azure-cloud-security:environment:azure-lab`.
+
+Routine GitHub deployment receives `Contributor` on those three exact pre-created groups. On the security group it also receives the built-in `Key Vault Data Access Administrator` role, whose built-in conditions permit managing only Key Vault data-plane role assignments; this is required for the Terraform `Key Vault Secrets User` assignment. It receives no subscription-level Contributor/Owner role and no client secret. The Terraform lab consumes the pre-created groups as data sources and rejects ownership-tag mismatches.
+
+The script writes client, tenant, subscription, and suffix values to the gitignored `.private/azure-bootstrap.env`; copy them into protected GitHub environment variables without committing them. Destroy the exact suffix-bound resource groups and remove the federated credential/application after temporary live evidence unless the owner intentionally retains it.
