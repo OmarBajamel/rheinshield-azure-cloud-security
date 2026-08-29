@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260829,
+  "incident": "INC-001",
+  "normalization": "account and source correlation window",
+  "baseline": [
+    { "account": "analyst@rheincommerce.invalid", "source_ip": "198.51.100.20", "failures": 2, "success": true, "minutes_to_success": 4 }
+  ],
+  "malicious": [
+    { "account": "supplier.ops@rheincommerce.invalid", "source_ip": "203.0.113.77", "failures": 7, "success": true, "minutes_to_success": 2 }
+  ],
+  "expected": { "baseline_alerts": 0, "malicious_alerts": 1 }
+}

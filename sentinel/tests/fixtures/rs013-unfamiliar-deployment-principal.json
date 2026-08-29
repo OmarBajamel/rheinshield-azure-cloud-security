@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260829,
+  "incident": "INC-001",
+  "normalization": "deployment event joined to approved-principal watchlist",
+  "approved": [
+    { "principal": "github-rheinshield", "location": "westeurope" }
+  ],
+  "baseline": [
+    { "operation": "deployments/write", "result": "success", "principal": "github-rheinshield", "location": "westeurope" }
+  ],
+  "malicious": [
+    { "operation": "deployments/write", "result": "success", "principal": "interactive-unfamiliar", "location": "northeurope" }
+  ],
+  "expected": { "baseline_alerts": 0, "malicious_alerts": 1 }
+}

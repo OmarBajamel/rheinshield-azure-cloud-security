@@ -1,0 +1,43 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e010
+name: RS010 Unusual Key Vault secret enumeration or access spike
+description: Detects at least 25 successful secret list or get operations, including ten distinct secret URIs, by one caller in five minutes.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: High
+status: FIXTURE_VALIDATED
+required_data_sources: [Azure Key Vault AzureDiagnostics]
+query_frequency: PT5M
+query_period: PT10M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [CredentialAccess, Collection]
+techniques: [T1555, T1530]
+entity_mappings:
+  - entity_type: IP
+    field_mappings: [{identifier: Address, column_name: CallerIPAddress}]
+  - entity_type: AzureResource
+    field_mappings: [{identifier: ResourceId, column_name: ResourceId}]
+query: |-
+  AzureDiagnostics
+  | where TimeGenerated >= ago(10m) and ResourceType =~ "VAULTS"
+  | where OperationName in~ ("SecretGet", "SecretList") and ResultType =~ "Success"
+  | extend CallerObjectId=coalesce(identity_claim_oid_g, identity_claim_appid_g, CallerIPAddress)
+  | summarize OperationCount=count(), DistinctSecrets=dcount(requestUri_s),
+      SecretUris=make_set(requestUri_s, 25), ResourceId=any(_ResourceId)
+      by CallerObjectId, CallerIPAddress, bin(TimeGenerated, 5m)
+  | where OperationCount >= 25 and DistinctSecrets >= 10
+false_positives:
+  - Approved secret inventory or rotation jobs can produce short access bursts.
+tuning_guidance:
+  - Baseline each managed identity and prefer per-identity thresholds over broad exclusions.
+response_guidance:
+  - Disable or restrict the identity if unauthorized, review secret consumers, and rotate exposed material.
+fixture: ../tests/fixtures/rs010-key-vault-access-spike.json
+evaluator: key_vault_access_spike
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

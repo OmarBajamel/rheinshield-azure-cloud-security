@@ -1,0 +1,25 @@
+schema_version: 1.0.0
+id: 0aa4d671-b62a-451d-842f-5a566baaf102
+name: Dormant privileged account resumed activity
+description: Finds accounts absent for 30 days that resume sign-in activity and have directory-role audit history.
+status: READY_NOT_AUTHENTICATED
+required_data_sources: [SigninLogs, AuditLogs]
+tactics: [Persistence, PrivilegeEscalation]
+techniques: [T1078.004]
+query: |-
+  let Historical = SigninLogs
+    | where TimeGenerated between (ago(90d) .. ago(30d)) and ResultType == "0"
+    | summarize HistoricalLastSeen=max(TimeGenerated) by UserPrincipalName;
+  let Recent = SigninLogs
+    | where TimeGenerated >= ago(1d) and ResultType == "0"
+    | summarize RecentFirstSeen=min(TimeGenerated), RecentIPs=make_set(IPAddress, 10) by UserPrincipalName;
+  let Privileged = AuditLogs
+    | where TimeGenerated >= ago(180d) and OperationName has_any ("Add member to role", "Activate eligible assignment")
+    | mv-expand TargetResources
+    | extend UserPrincipalName=tostring(TargetResources.userPrincipalName)
+    | summarize RoleEvents=count() by UserPrincipalName;
+  Recent
+  | join kind=leftouter Historical on UserPrincipalName
+  | join kind=inner Privileged on UserPrincipalName
+  | where isempty(HistoricalLastSeen) or datetime_diff('day', RecentFirstSeen, HistoricalLastSeen) >= 30
+  | project UserPrincipalName, RecentFirstSeen, HistoricalLastSeen, RecentIPs, RoleEvents

@@ -1,0 +1,44 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e011
+name: RS011 Encoded or obfuscated PowerShell process behavior
+description: Detects Windows process creation containing encoded-command switches, base64 decoding, or common string-obfuscation constructs.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: Medium
+status: FIXTURE_VALIDATED
+required_data_sources: [Windows SecurityEvent 4688 with command line auditing]
+query_frequency: PT5M
+query_period: PT10M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [Execution, DefenseEvasion]
+techniques: [T1059.001, T1027]
+entity_mappings:
+  - entity_type: Host
+    field_mappings: [{identifier: HostName, column_name: Computer}]
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: Account}]
+  - entity_type: Process
+    field_mappings: [{identifier: CommandLine, column_name: CommandLine}]
+query: |-
+  SecurityEvent
+  | where TimeGenerated >= ago(10m) and EventID == 4688
+  | where NewProcessName endswith "\\powershell.exe" or NewProcessName endswith "\\pwsh.exe"
+  | extend LowerCommand=tolower(CommandLine)
+  | where LowerCommand matches regex @"(^|\s)-(e|en|enc|enco|encod|encodedcommand)(\s|:|$)"
+      or LowerCommand has "frombase64string" or LowerCommand has "[char[]]"
+  | project TimeGenerated, Computer, Account, NewProcessName, CommandLine, ParentProcessName, SubjectLogonId
+false_positives:
+  - Signed administration and software-deployment scripts may legitimately use encoded parameters.
+tuning_guidance:
+  - Allowlist by signed script hash, managed parent process, and change window rather than command-line fragment alone.
+response_guidance:
+  - Preserve process ancestry, decode content in an isolated analysis workflow, and inspect related network activity.
+fixture: ../tests/fixtures/rs011-encoded-powershell.json
+evaluator: encoded_powershell
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

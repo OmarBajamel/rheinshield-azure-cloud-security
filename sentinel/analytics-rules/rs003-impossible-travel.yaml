@@ -1,0 +1,52 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e003
+name: RS003 Improbable travel between successful sign-ins
+description: >-
+  Finds consecutive successful sign-ins whose synthetic or connector-provided
+  coordinates imply travel faster than 900 km/h over a distance above 500 km.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: Medium
+status: FIXTURE_VALIDATED
+required_data_sources: [Microsoft Entra ID SigninLogs with LocationDetails]
+query_frequency: PT15M
+query_period: PT2H
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [InitialAccess]
+techniques: [T1078.004]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: UserPrincipalName}]
+  - entity_type: IP
+    field_mappings: [{identifier: Address, column_name: IPAddress}]
+query: |-
+  SigninLogs
+  | where TimeGenerated >= ago(2h) and ResultType == "0"
+  | extend Latitude=todouble(LocationDetails.geoCoordinates.latitude),
+      Longitude=todouble(LocationDetails.geoCoordinates.longitude)
+  | where isnotnull(Latitude) and isnotnull(Longitude)
+  | sort by UserPrincipalName asc, TimeGenerated asc
+  | serialize PrevUser=prev(UserPrincipalName), PrevTime=prev(TimeGenerated),
+      PrevLatitude=prev(Latitude), PrevLongitude=prev(Longitude), PrevLocation=prev(Location)
+  | where UserPrincipalName == PrevUser
+  | extend DistanceKm=geo_distance_2points(Longitude, Latitude, PrevLongitude, PrevLatitude) / 1000.0,
+      Hours=datetime_diff('second', TimeGenerated, PrevTime) / 3600.0
+  | extend SpeedKph=DistanceKm / Hours
+  | where DistanceKm > 500 and SpeedKph > 900
+  | project TimeGenerated, UserPrincipalName, IPAddress, PreviousLocation=PrevLocation,
+      CurrentLocation=Location, DistanceKm, SpeedKph
+false_positives:
+  - VPN exits, mobile carrier routing, and inaccurate IP geolocation can mimic rapid travel.
+tuning_guidance:
+  - Maintain named VPN exits and require additional risk signals before escalating automatically.
+response_guidance:
+  - Validate device and MFA context, compare user travel, and revoke sessions if compromise is suspected.
+fixture: ../tests/fixtures/rs003-impossible-travel.json
+evaluator: impossible_travel
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

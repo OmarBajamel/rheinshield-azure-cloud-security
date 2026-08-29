@@ -1,0 +1,22 @@
+schema_version: 1.0.0
+id: 0aa4d671-b62a-451d-842f-5a566baaf105
+name: Data-access spike with preceding authorization failures
+description: Finds storage readers whose address also generated denied Azure operations during the preceding hour.
+status: READY_NOT_AUTHENTICATED
+required_data_sources: [StorageBlobLogs, AzureActivity]
+tactics: [Discovery, Collection, Exfiltration]
+techniques: [T1069.003, T1530]
+query: |-
+  let Denied = AzureActivity
+    | where TimeGenerated >= ago(24h) and ActivityStatusValue =~ "Failed"
+    | where ActivitySubstatusValue has_any ("Forbidden", "Unauthorized", "AuthorizationFailed")
+    | summarize DeniedOperations=count(), DeniedNames=make_set(OperationNameValue, 20),
+        FirstDenied=min(TimeGenerated), LastDenied=max(TimeGenerated) by CallerIpAddress;
+  StorageBlobLogs
+  | where TimeGenerated >= ago(24h) and StatusCode between (200 .. 299) and OperationName == "GetBlob"
+  | summarize Objects=dcount(Uri), Bytes=sum(ResponseBodySize), FirstRead=min(TimeGenerated),
+      LastRead=max(TimeGenerated), Accounts=make_set(AccountName, 10) by CallerIpAddress
+  | where Objects >= 50 or Bytes >= 52428800
+  | join kind=inner Denied on CallerIpAddress
+  | where LastDenied between (FirstRead - 1h .. LastRead)
+  | project CallerIpAddress, Objects, Bytes, DeniedOperations, DeniedNames, Accounts, FirstRead, LastRead

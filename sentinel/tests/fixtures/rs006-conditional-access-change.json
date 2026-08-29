@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260829,
+  "incident": "INC-001",
+  "normalization": "Entra policy audit operation",
+  "baseline": [
+    { "category": "UserManagement", "operation": "Update user", "result": "success" }
+  ],
+  "malicious": [
+    { "category": "Policy", "operation": "Update conditional access policy", "result": "success", "change": "Exclude administrators" }
+  ],
+  "expected": { "baseline_alerts": 0, "malicious_alerts": 1 }
+}

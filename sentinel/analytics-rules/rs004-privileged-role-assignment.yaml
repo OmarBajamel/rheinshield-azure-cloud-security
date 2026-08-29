@@ -1,0 +1,42 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e004
+name: RS004 Privileged directory role assignment or elevation
+description: Detects successful additions or eligible or active assignments to Microsoft Entra directory roles.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: High
+status: FIXTURE_VALIDATED
+required_data_sources: [Microsoft Entra ID AuditLogs]
+query_frequency: PT5M
+query_period: PT10M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [PrivilegeEscalation, Persistence]
+techniques: [T1098, T1078.004]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: InitiatedByAccount}]
+query: |-
+  AuditLogs
+  | where TimeGenerated >= ago(10m) and Result =~ "success"
+  | where OperationName in~ ("Add member to role", "Add eligible member to role",
+      "Add scoped member to role", "Activate eligible assignment")
+  | extend InitiatedByAccount=coalesce(tostring(InitiatedBy.user.userPrincipalName),
+      tostring(InitiatedBy.app.displayName)), InitiatedByIp=tostring(InitiatedBy.user.ipAddress)
+  | mv-expand TargetResources
+  | extend Target=tostring(TargetResources.displayName), TargetType=tostring(TargetResources.type)
+  | project TimeGenerated, OperationName, InitiatedByAccount, InitiatedByIp, Target, TargetType, CorrelationId
+false_positives:
+  - Approved PIM activations and scheduled access changes are expected but remain auditable.
+tuning_guidance:
+  - Correlate with PIM ticket identifiers and focus escalation on permanent or out-of-hours changes.
+response_guidance:
+  - Verify approval, role scope, duration, actor authentication, and remove unauthorized assignment.
+fixture: ../tests/fixtures/rs004-privileged-role-assignment.json
+evaluator: privileged_role_assignment
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

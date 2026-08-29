@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "validationStatus": "PLAN_VALIDATED",
+    "dataNotice": "Synthetic portfolio data in public-demo mode; no live deployment is claimed."
+  },
+  "parameters": {
+    "workspaceName": { "type": "string" },
+    "location": { "type": "string", "defaultValue": "westeurope" },
+    "workbookId": { "type": "string", "defaultValue": "31479d4d-2ea7-4c61-b548-3928cae3a101" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/workbooks",
+      "apiVersion": "2023-06-01",
+      "name": "[parameters('workbookId')]",
+      "location": "[parameters('location')]",
+      "kind": "shared",
+      "properties": {
+        "category": "sentinel",
+        "displayName": "RheinShield - SOC Operations Overview",
+        "description": "Incident volume, lifecycle, detection trend, entities, tactics, and data freshness.",
+        "sourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaceName'))]",
+        "version": "1.0",
+        "serializedData": "{\"version\":\"Notebook/1.0\",\"isLocked\":false,\"items\":[{\"type\":1,\"name\":\"notice\",\"content\":{\"json\":\"# RheinShield SOC Operations Overview\\nSynthetic portfolio data in public-demo mode. Confirm connector freshness before operational use.\"}},{\"type\":3,\"name\":\"incidents\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"SecurityIncident | where TimeGenerated >= ago(30d) | summarize Incidents=dcount(IncidentNumber) by Severity, Status | order by Severity asc\",\"size\":0,\"title\":\"Incidents by severity and status\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"bar\"}},{\"type\":3,\"name\":\"trend\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"SecurityAlert | where TimeGenerated >= ago(30d) | summarize Alerts=count() by bin(TimeGenerated, 1d), AlertName | order by TimeGenerated asc\",\"size\":0,\"title\":\"Detection trend\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"timechart\"}},{\"type\":3,\"name\":\"lifecycle\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"SecurityIncident | where TimeGenerated >= ago(30d) | extend AckMinutes=datetime_diff('minute', FirstActivityTime, CreatedTime), ResolveMinutes=datetime_diff('minute', ClosedTime, CreatedTime) | summarize MTTA_Min=avg(AckMinutes), MTTR_Min=avg(ResolveMinutes)\",\"size\":0,\"title\":\"Simulated incident MTTA and MTTR\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"tiles\"}},{\"type\":3,\"name\":\"entities\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"SecurityAlert | where TimeGenerated >= ago(30d) | mv-expand todynamic(Entities) | extend EntityType=tostring(Entities.Type), EntityName=coalesce(tostring(Entities.Name), tostring(Entities.Address)) | summarize Alerts=count() by EntityType, EntityName | top 15 by Alerts desc\",\"size\":0,\"title\":\"Top entities\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\"}},{\"type\":3,\"name\":\"freshness\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"union withsource=TableName isfuzzy=true SigninLogs, AuditLogs, AzureActivity, SecurityEvent, StorageBlobLogs, AzureDiagnostics | summarize LastEvent=max(TimeGenerated) by TableName | extend MinutesBehind=datetime_diff('minute', now(), LastEvent) | order by MinutesBehind desc\",\"size\":0,\"title\":\"Data freshness\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\"}}]}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e002
+name: RS002 Successful sign-in after repeated failures
+description: >-
+  Correlates five or more failures with a later successful sign-in for the same
+  account and source address inside a thirty-minute window.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: High
+status: FIXTURE_VALIDATED
+required_data_sources: [Microsoft Entra ID SigninLogs]
+query_frequency: PT5M
+query_period: PT30M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [CredentialAccess, InitialAccess]
+techniques: [T1110, T1078.004]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: UserPrincipalName}]
+  - entity_type: IP
+    field_mappings: [{identifier: Address, column_name: IPAddress}]
+query: |-
+  let failures = SigninLogs
+    | where TimeGenerated >= ago(30m) and ResultType !in ("0", "50074", "50158")
+    | summarize FailureCount=count(), FirstFailure=min(TimeGenerated), LastFailure=max(TimeGenerated)
+        by UserPrincipalName, IPAddress
+    | where FailureCount >= 5;
+  let successes = SigninLogs
+    | where TimeGenerated >= ago(30m) and ResultType == "0"
+    | project UserPrincipalName, IPAddress, SuccessTime=TimeGenerated, AppDisplayName;
+  failures
+  | join kind=inner successes on UserPrincipalName, IPAddress
+  | where SuccessTime between (LastFailure .. LastFailure + 30m)
+  | project TimeGenerated=SuccessTime, UserPrincipalName, IPAddress, AppDisplayName,
+      FailureCount, FirstFailure, LastFailure
+false_positives:
+  - A user may correct a forgotten password after repeated attempts from a stable corporate address.
+tuning_guidance:
+  - Raise the failure threshold for trusted named locations but retain monitoring of privileged accounts.
+response_guidance:
+  - Verify user intent, authentication strength, device identity, and any post-authentication activity.
+fixture: ../tests/fixtures/rs002-success-after-failures.json
+evaluator: success_after_failures
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

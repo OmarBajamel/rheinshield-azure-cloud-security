@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "validationStatus": "PLAN_VALIDATED",
+    "dataNotice": "Synthetic portfolio data in public-demo mode; no live deployment is claimed."
+  },
+  "parameters": {
+    "workspaceName": { "type": "string" },
+    "location": { "type": "string", "defaultValue": "westeurope" },
+    "workbookId": { "type": "string", "defaultValue": "31479d4d-2ea7-4c61-b548-3928cae3a102" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/workbooks",
+      "apiVersion": "2023-06-01",
+      "name": "[parameters('workbookId')]",
+      "location": "[parameters('location')]",
+      "kind": "shared",
+      "properties": {
+        "category": "sentinel",
+        "displayName": "RheinShield - Identity Threats and Privileged Access",
+        "description": "Sign-in failures, suspicious locations, role assignments, workload credentials, and Conditional Access changes.",
+        "sourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaceName'))]",
+        "version": "1.0",
+        "serializedData": "{\"version\":\"Notebook/1.0\",\"isLocked\":false,\"items\":[{\"type\":1,\"name\":\"notice\",\"content\":{\"json\":\"# Identity Threats and Privileged Access\\nSynthetic portfolio data in public-demo mode. PIM and risk signals remain license-dependent.\"}},{\"type\":3,\"name\":\"failed-signins\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"SigninLogs | where TimeGenerated >= ago(30d) and ResultType != '0' | summarize Failures=count(), Users=dcount(UserPrincipalName) by bin(TimeGenerated, 1d)\",\"size\":0,\"title\":\"Failed sign-ins\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"timechart\"}},{\"type\":3,\"name\":\"locations\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"SigninLogs | where TimeGenerated >= ago(30d) and ResultType == '0' | summarize Signins=count(), Users=dcount(UserPrincipalName) by Location | order by Signins desc\",\"size\":0,\"title\":\"Successful sign-ins by location\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"map\"}},{\"type\":3,\"name\":\"roles\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"AuditLogs | where TimeGenerated >= ago(30d) and OperationName has_any ('Add member to role','Activate eligible assignment') | extend Actor=coalesce(tostring(InitiatedBy.user.userPrincipalName), tostring(InitiatedBy.app.displayName)) | summarize Changes=count() by OperationName, Actor\",\"size\":0,\"title\":\"Privileged role changes\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\"}},{\"type\":3,\"name\":\"workload-credentials\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"AuditLogs | where TimeGenerated >= ago(30d) and OperationName has_any ('service principal credentials','federated identity credential','Certificates and secrets') | summarize Changes=count() by OperationName, bin(TimeGenerated, 1d)\",\"size\":0,\"title\":\"Service-principal credential changes\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"timechart\"}},{\"type\":3,\"name\":\"ca\",\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"AuditLogs | where TimeGenerated >= ago(30d) and Category =~ 'Policy' and OperationName has_any ('conditional access policy','risk policy','named location') | summarize Changes=count() by OperationName, Result\",\"size\":0,\"title\":\"Conditional Access changes\",\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"visualization\":\"table\"}}]}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260829,
+  "incident": "INC-001",
+  "normalization": "Entra audit operation",
+  "baseline": [
+    { "operation": "Update user", "result": "success", "actor": "identity.admin@rheincommerce.invalid" }
+  ],
+  "malicious": [
+    { "operation": "Add member to role", "result": "success", "actor": "supplier.ops@rheincommerce.invalid", "target": "Global Administrator" }
+  ],
+  "expected": { "baseline_alerts": 0, "malicious_alerts": 1 }
+}

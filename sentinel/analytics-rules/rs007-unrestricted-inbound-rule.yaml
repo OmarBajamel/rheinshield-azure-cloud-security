@@ -1,0 +1,47 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e007
+name: RS007 Network rule broadened to unrestricted inbound access
+description: Detects successful control-plane writes whose request properties allow inbound traffic from any source.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: High
+status: FIXTURE_VALIDATED
+required_data_sources: [Azure Activity]
+query_frequency: PT5M
+query_period: PT15M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [DefenseEvasion, InitialAccess]
+techniques: [T1562.007, T1190]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: Caller}]
+  - entity_type: AzureResource
+    field_mappings: [{identifier: ResourceId, column_name: ResourceId}]
+query: |-
+  AzureActivity
+  | where TimeGenerated >= ago(15m) and ActivityStatusValue =~ "Success"
+  | where OperationNameValue in~ ("MICROSOFT.NETWORK/NETWORKSECURITYGROUPS/SECURITYRULES/WRITE",
+      "MICROSOFT.NETWORK/AZUREFIREWALLS/WRITE", "MICROSOFT.NETWORK/FIREWALLPOLICIES/RULECOLLECTIONGROUPS/WRITE")
+  | extend RequestText=tolower(tostring(Properties))
+  | where RequestText contains '"direction":"inbound"' or RequestText contains '"direction": "inbound"'
+  | where RequestText contains '"sourceaddressprefix":"*"'
+      or RequestText contains '"sourceaddressprefix":"0.0.0.0/0"'
+      or RequestText contains '"sourceaddressprefix":"::/0"'
+      or RequestText contains '"sourceaddresses":["*"]'
+  | where RequestText contains '"access":"allow"' or RequestText contains '"action":{"type":"allow"}'
+  | project TimeGenerated, Caller, CallerIpAddress, ResourceId, OperationNameValue, CorrelationId, RequestText
+false_positives:
+  - Temporary approved exposure for a project-created test endpoint may match.
+tuning_guidance:
+  - Exclude only documented resource IDs with expiry; never suppress wildcard administrative ports globally.
+response_guidance:
+  - Confirm change approval, identify exposed ports, restore restrictive sources, and review connection telemetry.
+fixture: ../tests/fixtures/rs007-unrestricted-inbound-rule.json
+evaluator: unrestricted_inbound_rule
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

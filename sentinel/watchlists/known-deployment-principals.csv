@@ -1,0 +1,4 @@
+Principal,Location,Environment,Owner,ExpiresAt
+github-rheinshield,westeurope,lab,CloudPlatform,2027-08-29T00:00:00Z
+fixture-release-pipeline,westeurope,test,DevSecOps,2027-08-29T00:00:00Z
+fixture-dr-orchestrator,northeurope,lab,CloudPlatform,2027-08-29T00:00:00Z

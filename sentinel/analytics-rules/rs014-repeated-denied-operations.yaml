@@ -1,0 +1,43 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e014
+name: RS014 Repeated denied Azure operations by one principal
+description: Detects at least eight authorization failures spanning three Azure operations by one caller in ten minutes.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: Medium
+status: FIXTURE_VALIDATED
+required_data_sources: [Azure Activity]
+query_frequency: PT5M
+query_period: PT15M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [Discovery, PrivilegeEscalation]
+techniques: [T1087.004, T1069.003]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: Caller}]
+  - entity_type: IP
+    field_mappings: [{identifier: Address, column_name: CallerIpAddress}]
+query: |-
+  AzureActivity
+  | where TimeGenerated >= ago(15m) and ActivityStatusValue =~ "Failed"
+  | where ActivitySubstatusValue in~ ("Forbidden", "Unauthorized", "AuthorizationFailed")
+      or tostring(Properties) has "AuthorizationFailed"
+  | summarize DeniedCount=count(), DistinctOperations=dcount(OperationNameValue),
+      Operations=make_set(OperationNameValue, 25), Resources=make_set(ResourceId, 25)
+      by Caller, CallerIpAddress, SubscriptionId, bin(TimeGenerated, 10m)
+  | where DeniedCount >= 8 and DistinctOperations >= 3
+false_positives:
+  - A newly deployed tool with an incomplete custom role can repeatedly receive authorization failures.
+tuning_guidance:
+  - Group by workload identity and deployment window; alert immediately for privileged interactive identities.
+response_guidance:
+  - Determine whether the caller is misconfigured or probing permissions, then restrict credentials and inspect follow-on activity.
+fixture: ../tests/fixtures/rs014-repeated-denied-operations.json
+evaluator: repeated_denied_operations
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

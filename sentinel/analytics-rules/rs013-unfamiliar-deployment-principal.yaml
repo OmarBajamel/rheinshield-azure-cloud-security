@@ -1,0 +1,47 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e013
+name: RS013 Resource deployment from unfamiliar principal or location
+description: Compares successful resource deployments with a synthetic watchlist of approved deployment principals and locations.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: Medium
+status: FIXTURE_VALIDATED
+required_data_sources: [Azure Activity, KnownDeploymentPrincipals watchlist]
+query_frequency: PT15M
+query_period: PT30M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [InitialAccess, Persistence]
+techniques: [T1078.004, T1588.006]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: Caller}]
+  - entity_type: AzureResource
+    field_mappings: [{identifier: ResourceId, column_name: ResourceId}]
+query: |-
+  let Approved = _GetWatchlist('KnownDeploymentPrincipals')
+    | project ApprovedPrincipal=tolower(tostring(Principal)), ApprovedLocation=tolower(tostring(Location))
+    | summarize ApprovedLocations=make_set(ApprovedLocation) by ApprovedPrincipal;
+  AzureActivity
+  | where TimeGenerated >= ago(30m) and ActivityStatusValue =~ "Success"
+  | where OperationNameValue in~ ("MICROSOFT.RESOURCES/DEPLOYMENTS/WRITE", "MICROSOFT.RESOURCES/DEPLOYMENTS/VALIDATE/ACTION")
+  | extend DeploymentLocation=coalesce(tostring(parse_json(Properties).location), tostring(ResourceRegion)),
+      NormalizedCaller=tolower(Caller)
+  | join kind=leftouter Approved on $left.NormalizedCaller == $right.ApprovedPrincipal
+  | where isempty(ApprovedPrincipal) or array_index_of(ApprovedLocations, tolower(DeploymentLocation)) == -1
+  | project TimeGenerated, Caller, CallerIpAddress, DeploymentLocation, ResourceId,
+      SubscriptionId, ResourceGroup, CorrelationId
+false_positives:
+  - A newly onboarded CI identity or approved recovery deployment can be absent from the watchlist.
+tuning_guidance:
+  - Review and expire watchlist entries through change control; do not treat a known principal as location-agnostic.
+response_guidance:
+  - Validate OIDC subject and workflow run, inspect deployed resources, and disable unauthorized credentials.
+fixture: ../tests/fixtures/rs013-unfamiliar-deployment-principal.json
+evaluator: unfamiliar_deployment_principal
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

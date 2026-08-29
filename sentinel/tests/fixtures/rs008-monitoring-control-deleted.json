@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260829,
+  "incident": "INC-001",
+  "normalization": "Azure control-plane operation",
+  "baseline": [
+    { "operation": "MICROSOFT.INSIGHTS/DIAGNOSTICSETTINGS/WRITE", "result": "success" }
+  ],
+  "malicious": [
+    { "operation": "MICROSOFT.INSIGHTS/DIAGNOSTICSETTINGS/DELETE", "result": "success" }
+  ],
+  "expected": { "baseline_alerts": 0, "malicious_alerts": 1 }
+}

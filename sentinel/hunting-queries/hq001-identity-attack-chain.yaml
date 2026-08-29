@@ -1,0 +1,22 @@
+schema_version: 1.0.0
+id: 0aa4d671-b62a-451d-842f-5a566baaf101
+name: Identity failure-success-privilege attack chain
+description: Correlates repeated sign-in failures, a later success, and a directory role change by the same account.
+status: READY_NOT_AUTHENTICATED
+required_data_sources: [SigninLogs, AuditLogs]
+tactics: [CredentialAccess, PrivilegeEscalation]
+techniques: [T1110, T1078.004, T1098]
+query: |-
+  let IdentityWindow = 24h;
+  let SuspiciousSignins = SigninLogs
+    | where TimeGenerated >= ago(IdentityWindow)
+    | summarize Failures=countif(ResultType != "0"), Successes=countif(ResultType == "0"),
+        FirstSeen=min(TimeGenerated), LastSeen=max(TimeGenerated), IPs=make_set(IPAddress, 20)
+        by UserPrincipalName
+    | where Failures >= 5 and Successes >= 1;
+  AuditLogs
+  | where TimeGenerated >= ago(IdentityWindow) and Result =~ "success"
+  | where OperationName has_any ("Add member to role", "Activate eligible assignment")
+  | extend UserPrincipalName=tostring(InitiatedBy.user.userPrincipalName)
+  | join kind=inner SuspiciousSignins on UserPrincipalName
+  | project TimeGenerated, UserPrincipalName, OperationName, Failures, Successes, IPs, CorrelationId

@@ -1,0 +1,20 @@
+schema_version: 1.0.0
+id: 0aa4d671-b62a-451d-842f-5a566baaf104
+name: Cloud control weakening sequence by caller
+description: Summarizes callers making multiple network, storage, and monitoring control changes in a short period.
+status: READY_NOT_AUTHENTICATED
+required_data_sources: [AzureActivity]
+tactics: [DefenseEvasion]
+techniques: [T1562.001, T1562.007]
+query: |-
+  AzureActivity
+  | where TimeGenerated >= ago(7d) and ActivityStatusValue =~ "Success"
+  | where OperationNameValue has_any ("SECURITYRULES/WRITE", "DIAGNOSTICSETTINGS/DELETE",
+      "STORAGEACCOUNTS/WRITE", "PRICINGS/DELETE", "DATACOLLECTIONRULES/DELETE")
+  | extend ControlFamily=case(OperationNameValue has "SECURITYRULES", "Network",
+      OperationNameValue has "STORAGEACCOUNTS", "Storage",
+      OperationNameValue has "PRICINGS", "Defender", "Monitoring")
+  | summarize ChangeCount=count(), ControlFamilies=make_set(ControlFamily),
+      Operations=make_set(OperationNameValue, 30), Resources=make_set(ResourceId, 30),
+      FirstSeen=min(TimeGenerated), LastSeen=max(TimeGenerated) by Caller, CallerIpAddress, bin(TimeGenerated, 1h)
+  | where ChangeCount >= 3 and array_length(ControlFamilies) >= 2

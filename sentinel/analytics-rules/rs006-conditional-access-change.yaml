@@ -1,0 +1,44 @@
+schema_version: 1.0.0
+id: 8c2f0d50-6e63-4db2-a53e-301c0bf6e006
+name: RS006 Conditional Access or identity-protection policy changed
+description: Detects successful create, update, or delete operations affecting Conditional Access or identity-risk policies.
+version: 1.0.0
+kind: Scheduled
+resource_type: Microsoft.SecurityInsights/alertRules
+api_version: "2025-09-01"
+enabled: false
+severity: High
+status: FIXTURE_VALIDATED
+required_data_sources: [Microsoft Entra ID AuditLogs]
+query_frequency: PT5M
+query_period: PT10M
+trigger_operator: GreaterThan
+trigger_threshold: 0
+suppression_enabled: false
+suppression_duration: PT5H
+tactics: [DefenseEvasion, Persistence]
+techniques: [T1562.007]
+entity_mappings:
+  - entity_type: Account
+    field_mappings: [{identifier: FullName, column_name: InitiatedByAccount}]
+query: |-
+  AuditLogs
+  | where TimeGenerated >= ago(10m) and Result =~ "success"
+  | where Category =~ "Policy"
+  | where OperationName contains "conditional access policy" or OperationName contains "risk policy"
+      or OperationName contains "named location"
+  | where OperationName startswith "Add" or OperationName startswith "Update" or OperationName startswith "Delete"
+  | extend InitiatedByAccount=coalesce(tostring(InitiatedBy.user.userPrincipalName),
+      tostring(InitiatedBy.app.displayName)), InitiatedByIp=tostring(InitiatedBy.user.ipAddress)
+  | mv-expand TargetResources
+  | extend PolicyName=tostring(TargetResources.displayName), ChangedProperties=tostring(TargetResources.modifiedProperties)
+  | project TimeGenerated, OperationName, PolicyName, InitiatedByAccount, InitiatedByIp, ChangedProperties, CorrelationId
+false_positives:
+  - Approved report-only policy tuning and named-location maintenance are expected changes.
+tuning_guidance:
+  - Correlate with change windows; prioritize deletes, exclusions, and grant-control weakening.
+response_guidance:
+  - Export before and after policy state, confirm authorization, and restore the approved configuration if needed.
+fixture: ../tests/fixtures/rs006-conditional-access-change.json
+evaluator: conditional_access_change
+expected_test_result: {baseline_alerts: 0, malicious_alerts: 1}

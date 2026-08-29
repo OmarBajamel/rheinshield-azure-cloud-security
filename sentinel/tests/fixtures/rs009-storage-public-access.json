@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260829,
+  "incident": "INC-001",
+  "normalization": "storage account write request",
+  "baseline": [
+    { "operation": "storageAccounts/write", "result": "success", "allow_blob_public_access": false, "public_network_access": "Disabled", "default_action": "Deny" }
+  ],
+  "malicious": [
+    { "operation": "storageAccounts/write", "result": "success", "allow_blob_public_access": true, "public_network_access": "Enabled", "default_action": "Allow" }
+  ],
+  "expected": { "baseline_alerts": 0, "malicious_alerts": 1 }
+}
