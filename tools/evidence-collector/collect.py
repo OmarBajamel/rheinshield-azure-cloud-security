@@ -23,6 +23,10 @@ def sha256(path: Path) -> str:
 def provenance(name: str) -> str:
     if name in {"lighthouse.json", "screenshot-manifest.json"}:
         return "local Chrome production-build verification"
+    if name == "live-publication-validation.json":
+        return "hosted GitHub Pages and public GitHub Actions browser verification"
+    if name == "fresh-clone-validation.json":
+        return "fresh public GitHub clone reproducibility gate"
     if name in {"public-scan.json", "dist-scan.json", "security-scan-summary.json"}:
         return "automated public-release security and privacy gate"
     if name in {"terraform-validation.json", "iac-security-scan.json"}:

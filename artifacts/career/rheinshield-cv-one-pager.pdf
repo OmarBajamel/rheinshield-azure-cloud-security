@@ -1,5 +1,5 @@
 %PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+%“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
 <<
 /F1 2 0 R /F2 3 0 R
@@ -56,7 +56,7 @@ endobj
 endobj
 9 0 obj
 <<
-/Author (Omar Ba Jamel) /CreationDate (D:20260829194310+02'00') /Creator (ReportLab PDF Library - www.reportlab.com) /Keywords () /ModDate (D:20260829194310+02'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+/Author (Omar Ba Jamel) /CreationDate (D:20260829202302+02'00') /Creator (anonymous) /Keywords () /ModDate (D:20260829202302+02'00') /Producer (ReportLab PDF Library - \(opensource\)) 
   /Subject (Recruiter-ready reference for the RheinShield Azure security portfolio) /Title (RheinShield | Azure Cloud Security Project Reference) /Trapped /False
 >>
 endobj
@@ -75,27 +75,27 @@ endobj
 xref
 0 12
 0000000000 65535 f 
-0000000073 00000 n 
-0000000114 00000 n 
-0000000221 00000 n 
-0000000333 00000 n 
-0000015380 00000 n 
-0000015573 00000 n 
-0000015765 00000 n 
-0000016057 00000 n 
-0000016126 00000 n 
-0000016529 00000 n 
-0000016589 00000 n 
+0000000061 00000 n 
+0000000102 00000 n 
+0000000209 00000 n 
+0000000321 00000 n 
+0000015368 00000 n 
+0000015561 00000 n 
+0000015753 00000 n 
+0000016045 00000 n 
+0000016114 00000 n 
+0000016482 00000 n 
+0000016542 00000 n 
 trailer
 <<
 /ID 
-[<d4822e35c9c8eb58a2312f1b2646eb94><d4822e35c9c8eb58a2312f1b2646eb94>]
-% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+[<fe682e2bf0c4f3e4314cf161172ae712><fe682e2bf0c4f3e4314cf161172ae712>]
+% ReportLab generated PDF document -- digest (opensource)
 
 /Info 9 0 R
 /Root 8 0 R
 /Size 12
 >>
 startxref
-19826
+19779
 %%EOF

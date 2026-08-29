@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "verifiedAt": "2026-08-29T18:22:25.353Z",
+  "deploymentCommit": "b93b61f0f748f08e1b2f94a767fb502bf4637218",
+  "pagesUrl": "https://omarbajamel.github.io/rheinshield-azure-cloud-security/",
+  "pagesRunUrl": "https://github.com/OmarBajamel/rheinshield-azure-cloud-security/actions/runs/33267978567",
+  "ciRunUrl": "https://github.com/OmarBajamel/rheinshield-azure-cloud-security/actions/runs/33267928530",
+  "publicResponseStatus": 200,
+  "routeLanguageViews": 16,
+  "mobileWidth": 390,
+  "mobileOverflow": false,
+  "axeChecks": 3,
+  "axeViolations": 0,
+  "consoleErrors": 0,
+  "failedRequests": 0,
+  "screenshots": [
+    {
+      "path": "assets/screenshots/09-live-github-pages-desktop.png",
+      "sha256": "6b062e000821ddfdcb0c52340ef67b4f1a43773f180a8bdd39432b779139f572",
+      "privacyReview": "PASS"
+    },
+    {
+      "path": "assets/screenshots/10-github-actions-green.png",
+      "sha256": "b634ed7805bd8afa66673702000f4977efd6b75e7b1124dba37ab4b95ee4d294",
+      "privacyReview": "PASS"
+    }
+  ],
+  "dataMode": "public-demo"
+}

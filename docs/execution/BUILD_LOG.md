@@ -13,3 +13,8 @@
 | 2026-08-29 18:06 | Python/content gate | Ten tests; strict MyPy on ten files; Ruff clean; Sentinel fixture harness passed |
 | 2026-08-29 18:07 | Dependency gate | npm production audit and pip-audit found zero known vulnerabilities after pytest upgrade |
 | 2026-08-29 18:08 | Independent review gate | Architecture Highs resolved; compliance/frontend corrections applied; release provenance reserved for clean-source build |
+| 2026-08-29 20:16 | GitHub repository publication | Public repository created; description, homepage, and eight topics configured |
+| 2026-08-29 20:20 | GitHub Actions | CI run 33267928530 passed all three jobs |
+| 2026-08-29 20:20 | GitHub Pages | Pages run 33267978567 built, scanned, and deployed successfully |
+| 2026-08-29 20:22 | Hosted browser gate | HTTP 200; 16 views; mobile; 3 axe scans; 0 console/network errors; live screenshots captured |
+| 2026-08-29 20:23 | Career assets | QR, LinkedIn media, one-page CV PDF, and five-page carousel PDF regenerated against verified public URLs |
